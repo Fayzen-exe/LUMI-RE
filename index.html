@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUMIÈRE </title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showPage('home')">LUMI<span>È</span>RE</a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home" data-i18n="nav_home">Home</a></li>
+    <li><a onclick="showPage('customize')" id="nav-customize" data-i18n="nav_customize">Customize</a></li>
+    <li><a onclick="showPage('cart')" id="nav-cart" data-i18n="nav_cart">Cart</a></li>
+    <li><a onclick="openAuth()" id="nav-login" data-i18n="nav_login">Login</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="showPage('cart')" title="View Cart">
+      🛒 <span class="cart-count" id="cart-count">0</span>
+    </button>
+    <div id="user-display"></div>
+    <button class="lang-toggle" id="lang-toggle" onclick="toggleLanguage()" title="Switch Language">
+      <span id="lang-label">اردو</span>
+    </button>
+    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-overlay" id="mobile-overlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobile-nav">
+  <ul class="mobile-nav-links">
+    <li><a onclick="showPage('home');toggleMobileNav()">Home</a></li>
+    <li><a onclick="showPage('customize');toggleMobileNav()">Customize</a></li>
+    <li><a onclick="showPage('cart');toggleMobileNav()">Cart</a></li>
+    <li><a onclick="openAuth();toggleMobileNav()">Login</a></li>
+  </ul>
+</div>
+
+<!-- ============================================================
+     HOME PAGE
+     ============================================================ -->
+<div id="home-page" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-eyebrow" data-i18n="hero_eyebrow">Bespoke Atelier Since 2026</div>
+        <h1 class="hero-title">
+          <span data-i18n="hero_title_1">Design Your</span><br><em data-i18n="hero_title_2">Dream Jewelry</em>
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
+          Every piece tells a story. From timeless rings to bespoke necklaces — we craft luxury jewelry tailored exclusively to your vision.
+        </p>
+        <div class="hero-actions">
+          <button class="btn" onclick="showPage('customize')"><span data-i18n="hero_btn_customize">Start Customizing</span></button>
+          <button class="btn btn-ghost" onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})"><span data-i18n="hero_btn_browse">Browse Collection</span></button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-number">2.4K+</div>
+            <div class="stat-label" data-i18n="stat_pieces">Pieces Crafted</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">98%</div>
+            <div class="stat-label" data-i18n="stat_delight">Client Delight</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">10</div>
+            <div class="stat-label" data-i18n="stat_years">Years of Art</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-ring-display">
+          <div class="ring-orbit"><div class="ring-dot"></div></div>
+          <div class="ring-orbit"><div class="ring-dot"></div></div>
+          <div class="ring-orbit"></div>
+          <div class="hero-gem">
+            <span class="gem-icon">💍</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-inner" id="marquee-inner"></div>
+  </div>
+
+  <!-- Collection -->
+  <section class="products-section" id="collection">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-eyebrow" data-i18n="collection_eyebrow">Our Atelier</span>
+        <h2 class="section-title"><span data-i18n="collection_title">Curated</span> <em class="serif-italic" data-i18n="collection_title_em">Collection</em></h2>
+        <p class="section-subtitle" data-i18n="collection_subtitle">Explore our showcase of handcrafted designs — or use any as inspiration for your custom piece.</p>
+      </div>
+
+      <div class="filters reveal" id="filters">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+        <button class="filter-btn" data-filter="rings" data-i18n="filter_rings">Rings</button>
+        <button class="filter-btn" data-filter="necklaces" data-i18n="filter_necklaces">Necklaces</button>
+        <button class="filter-btn" data-filter="bracelets" data-i18n="filter_bracelets">Bracelets</button>
+        <button class="filter-btn" data-filter="earrings" data-i18n="filter_earrings">Earrings</button>
+        <button class="filter-btn" data-filter="bridal" data-i18n="filter_bridal">Bridal</button>
+        <button class="filter-btn" data-filter="pendants" data-i18n="filter_pendants">Pendants</button>
+      </div>
+
+      <div class="products-grid" id="products-grid"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner reveal">
+      <div class="divider"><span>◆</span></div>
+      <h2 class="cta-title"><span data-i18n="cta_title">Have a Vision</span> <em class="serif-italic" data-i18n="cta_title_em">in Mind?</em></h2>
+      <p class="cta-text" data-i18n="cta_text">Our master artisans will bring your dream jewelry to life. Share your design ideas, material preferences, and special requirements — and we'll create something extraordinary just for you.</p>
+      <button class="btn btn-solid" onclick="showPage('customize')"><span data-i18n="cta_btn">Begin Your Custom Order</span></button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">LUMI<span>È</span>RE</span>
+        <p class="footer-desc">A legacy of craftsmanship. Every piece of jewelry we create is a testament to the art of fine jewelry making, blending tradition with contemporary elegance.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Collection</h4>
+        <ul>
+          <li><a>Rings</a></li>
+          <li><a>Necklaces</a></li>
+          <li><a>Bracelets</a></li>
+          <li><a>Earrings</a></li>
+          <li><a>Bridal Sets</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a onclick="showPage('customize')">Custom Design</a></li>
+          <li><a>Engraving</a></li>
+          <li><a>Restoration</a></li>
+          <li><a>Sizing</a></li>
+          <li><a>Appraisal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Atelier</h4>
+        <ul>
+          <li><a>Our Story</a></li>
+          <li><a>Craftsmen</a></li>
+          <li><a>Materials</a></li>
+          <li><a>Contact</a></li>
+          <li><a>Care Guide</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lumière Jewelry Atelier. All rights reserved.</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ============================================================
+     CUSTOMIZE PAGE
+     ============================================================ -->
+<div id="customize-page" class="page">
+
+  <div class="customize-wrapper">
+    <div class="customize-header">
+      <span class="section-eyebrow">Bespoke Creation</span>
+      <h1>Your <em class="serif-italic gold">Custom</em> Piece</h1>
+      <p class="section-subtitle" style="margin:1rem auto 0">Fill in the details below and our craftsmen will turn your vision into reality.</p>
+    </div>
+
+    <div id="custom-form-area">
+      <div class="form-grid">
+        <div>
+
+          <!-- Jewelry Details -->
+          <div class="form-section">
+            <div class="form-section-title">💎 Jewelry Details</div>
+            <div class="field-row">
+              <div class="field">
+                <label>Jewelry Type</label>
+                <select id="jewelry-type" onchange="updateSummary()">
+                  <option value="">Select Type</option>
+                  <option>Ring</option>
+                  <option>Necklace</option>
+                  <option>Bracelet</option>
+                  <option>Earrings</option>
+                  <option>Pendant</option>
+                  <option>Brooch</option>
+                  <option>Anklet</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Style</label>
+                <select id="jewelry-style" onchange="updateSummary()">
+                  <option value="">Select Style</option>
+                  <option>Modern</option>
+                  <option>Vintage</option>
+                  <option>Minimal</option>
+                  <option>Art Deco</option>
+                  <option>Bohemian</option>
+                  <option>Classic</option>
+                  <option>Statement</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Material</label>
+                <select id="jewelry-material" onchange="updateSummary()">
+                  <option value="">Select Material</option>
+                  <option>18K Yellow Gold</option>
+                  <option>18K White Gold</option>
+                  <option>18K Rose Gold</option>
+                  <option>Sterling Silver</option>
+                  <option>Platinum</option>
+                  <option>Titanium</option>
+                  <option>Mixed Metals</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Size (optional)</label>
+                <input type="text" id="jewelry-size" placeholder="e.g. Ring size 7, 18 inch chain" onchange="updateSummary()"/>
+              </div>
+            </div>
+            <div class="field">
+              <label>Gemstone / Stone (optional)</label>
+              <select id="jewelry-gem" onchange="updateSummary()">
+                <option value="">No Gemstone</option>
+                <option>Diamond</option>
+                <option>Ruby</option>
+                <option>Sapphire</option>
+                <option>Emerald</option>
+                <option>Pearl</option>
+                <option>Amethyst</option>
+                <option>Topaz</option>
+                <option>Opal</option>
+                <option>Custom</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Color Preference -->
+          <div class="form-section">
+            <div class="form-section-title">🎨 Color Preference</div>
+            <div class="field">
+              <label>Select Color Theme</label>
+              <div class="color-swatches" id="color-swatches">
+                <div class="swatch selected" style="background:#C9A96E" data-color="Gold" title="Gold" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#E8E8E8" data-color="Silver" title="Silver" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#E8B4C4" data-color="Rose Gold" title="Rose Gold" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#3B5998" data-color="Sapphire Blue" title="Sapphire Blue" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#2E7D32" data-color="Emerald Green" title="Emerald Green" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#C62828" data-color="Ruby Red" title="Ruby Red" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#4A148C" data-color="Amethyst Purple" title="Amethyst Purple" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#FFF9C4;border:1px solid #888" data-color="Pearl White" title="Pearl White" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#0A0A0A;border:1px solid #555" data-color="Jet Black" title="Jet Black" onclick="selectColor(this)"></div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Custom Color Note</label>
+              <input type="text" id="color-note" placeholder="Describe any specific color or finish you have in mind"/>
+            </div>
+          </div>
+
+          <!-- Budget -->
+          <div class="form-section">
+            <div class="form-section-title">💰 Budget Range</div>
+            <div class="field">
+              <div class="budget-display">
+                <span>Your Budget</span>
+                <span class="budget-value" id="budget-display">$2,500</span>
+              </div>
+              <input type="range" class="range-input" id="budget-range"
+                min="100" max="50000" step="100" value="2500"
+                oninput="updateBudget(this.value)" onchange="updateSummary()"/>
+              <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-dim);margin-top:0.5rem">
+                <span>$100</span><span>$50,000+</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-section">
+            <div class="form-section-title">📝 Design Description</div>
+            <div class="field">
+              <label>Special Instructions</label>
+              <textarea id="design-desc" placeholder="Describe your dream piece... Engraving, special symbols, inspirations, occasions (anniversary, engagement, gift)..." rows="5"></textarea>
+            </div>
+            <div class="field">
+              <label>Reference Image (optional)</label>
+              <div class="upload-zone" id="upload-zone">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">
+                  <strong>Click to upload</strong> or drag & drop<br>
+                  JPG, PNG, GIF up to 10MB
+                </div>
+                <input type="file" id="image-upload" accept="image/*" onchange="handleImageUpload(this)"/>
+                <img id="upload-preview" alt="Reference preview"/>
+              </div>
+            </div>
+            <div class="field">
+              <label>Quantity</label>
+              <div style="display:flex;gap:0.5rem;align-items:center">
+                <button class="icon-btn" onclick="changeQty(-1)">−</button>
+                <input type="number" id="quantity" value="1" min="1" max="99"
+                  style="width:60px;text-align:center" onchange="updateSummary()"/>
+                <button class="icon-btn" onclick="changeQty(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer Info -->
+          <div class="form-section">
+            <div class="form-section-title">👤 Your Information</div>
+            <div class="field-row">
+              <div class="field">
+                <label>Full Name *</label>
+                <input type="text" id="cust-name" placeholder="Your full name" required/>
+              </div>
+              <div class="field">
+                <label>Email Address *</label>
+                <input type="email" id="cust-email" placeholder="your@email.com" required/>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Phone Number</label>
+                <input type="tel" id="cust-phone" placeholder="+1 (555) 000-0000"/>
+              </div>
+              <div class="field">
+                <label>Preferred Contact</label>
+                <select id="cust-contact">
+                  <option>Email</option>
+                  <option>Phone</option>
+                  <option>WhatsApp</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Delivery Address</label>
+              <textarea id="cust-address" placeholder="Street address, City, State, ZIP, Country" rows="3"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div>
+          <div class="order-summary">
+            <h3>Order Summary</h3>
+            <ul class="summary-items" id="summary-items">
+              <li class="summary-item"><span>Jewelry Type</span><span id="s-type">—</span></li>
+              <li class="summary-item"><span>Style</span><span id="s-style">—</span></li>
+              <li class="summary-item"><span>Material</span><span id="s-material">—</span></li>
+              <li class="summary-item"><span>Gemstone</span><span id="s-gem">None</span></li>
+              <li class="summary-item"><span>Color Theme</span><span id="s-color">Gold</span></li>
+              <li class="summary-item"><span>Budget</span><span id="s-budget">$2,500</span></li>
+              <li class="summary-item"><span>Quantity</span><span id="s-qty">1</span></li>
+            </ul>
+            <div class="summary-note">
+              ✦ Our artisan will review your order and contact you within 24 hours with a detailed quote and timeline.
+            </div>
+            <button class="btn btn-solid form-submit" onclick="submitOrder()">
+              <span>Submit Custom Order</span>
+            </button>
+            <div style="margin-top:1rem;text-align:center">
+              <span style="font-size:0.7rem;color:var(--text-dim)">🔒 Secure · No payment required now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success screen -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">✨</div>
+      <h2>Order <em class="serif-italic gold">Received!</em></h2>
+      <p>Your bespoke jewelry request has been submitted successfully. Our master artisan will review your specifications and reach out within 24 hours.</p>
+      <div class="order-id" id="order-id-display">Order ID: Loading…</div>
+      <button class="btn" onclick="showPage('home')"><span>Back to Collection</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CART PAGE
+     ============================================================ -->
+<div id="cart-page" class="page">
+  <div class="cart-wrapper">
+    <div class="cart-header">
+      <h1>Your <em class="serif-italic">Cart</em></h1>
+      <p class="section-eyebrow" style="margin-top:0.5rem">Selected pieces & custom orders</p>
+    </div>
+    <div id="cart-content"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     AUTH MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()">✕</button>
+    <div class="modal-logo">LUMI<span>È</span>RE</div>
+    <div class="modal-tagline" data-i18n="auth_tagline">Members receive exclusive atelier access</div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')" data-i18n="auth_signin">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('signup')" data-i18n="auth_create">Create Account</button>
+    </div>
+
+    <!-- Login -->
+    <div class="auth-form active" id="tab-login">
+      <div class="field">
+        <label data-i18n="auth_email">Email Address</label>
+        <input type="email" id="login-email" placeholder="your@email.com" data-i18n-placeholder="auth_email_ph"/>
+      </div>
+      <div class="field">
+        <label data-i18n="auth_password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••"/>
+      </div>
+      <button class="auth-submit" onclick="loginUser()" data-i18n="auth_signin">Sign In</button>
+      <div class="auth-divider" data-i18n="auth_or">or continue with</div>
+      <button class="google-btn" onclick="googleSignIn()">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span data-i18n="auth_google">Continue with Google</span>
+      </button>
+    </div>
+
+    <!-- Signup -->
+    <div class="auth-form" id="tab-signup">
+      <div class="field-row">
+        <div class="field">
+          <label data-i18n="auth_fname">First Name</label>
+          <input type="text" id="signup-fname" placeholder="First name" data-i18n-placeholder="auth_fname"/>
+        </div>
+        <div class="field">
+          <label data-i18n="auth_lname">Last Name</label>
+          <input type="text" id="signup-lname" placeholder="Last name" data-i18n-placeholder="auth_lname"/>
+        </div>
+      </div>
+      <div class="field">
+        <label data-i18n="auth_email">Email Address</label>
+        <input type="email" id="signup-email" placeholder="your@email.com"/>
+      </div>
+      <div class="field">
+        <label data-i18n="auth_password">Password</label>
+        <input type="password" id="signup-password" placeholder="Min. 6 characters" data-i18n-placeholder="auth_pw_ph"/>
+      </div>
+      <button class="auth-submit" onclick="signupUser()" data-i18n="auth_create">Create Account</button>
+      <div class="auth-divider" data-i18n="auth_or">or continue with</div>
+      <button class="google-btn" onclick="googleSignIn()">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span data-i18n="auth_google">Continue with Google</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- ============================================================
+     FIREBASE + JAVASCRIPT
+     ============================================================ -->
+<script type="module">
+// ============================================================
+// FIREBASE CONFIG — Replace with your own Firebase project config
+// ============================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+         GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp
+       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL
+       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+// ⚠️  REPLACE the values below with your Firebase project credentials
+// Visit https://console.firebase.google.com → Project Settings → Your Apps → Config
+const firebaseConfig = {
+  apiKey: "AIzaSyCpqo_a0KTT6bc8ntGfo4UB1iujIORwxUc",
+  authDomain: "lumi-2e197.firebaseapp.com",
+  projectId: "lumi-2e197",
+  storageBucket: "lumi-2e197.firebasestorage.app",
+  messagingSenderId: "891855788499",
+  appId: "1:891855788499:web:e2212fd64f63abe4be7726"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const googleProvider = new GoogleAuthProvider();
+
+// ============================================================
+// AUTH STATE
+// ============================================================
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+  updateUserUI(user);
+});
+
+function updateUserUI(user) {
+  const display = document.getElementById('user-display');
+  const loginLink = document.getElementById('nav-login');
+  if (user) {
+    const initials = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+    const name = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
+    display.innerHTML = `
+      <div class="user-badge" onclick="handleSignOut()">
+        <div class="user-avatar">${initials}</div>
+        <span class="user-name">${name}</span>
+      </div>`;
+    loginLink.style.display = 'none';
+  } else {
+    display.innerHTML = '';
+    loginLink.style.display = '';
+  }
+}
+
+// ============================================================
+// AUTH FUNCTIONS — exposed globally
+// ============================================================
+window.loginUser = async function() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) { showToast('Please fill in all fields', 'error'); return; }
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    closeAuth();
+    showToast('Welcome back!', 'success');
+    showPage('home'); // redirect to dashboard (home)
+  } catch (e) {
+    showToast(getFriendlyError(e.code), 'error');
+  }
+};
+
+window.signupUser = async function() {
+  const fname = document.getElementById('signup-fname').value;
+  const lname = document.getElementById('signup-lname').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+  if (!email || !password || !fname) { showToast('Please fill in required fields', 'error'); return; }
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    closeAuth();
+    showToast(`Welcome to Lumière, ${fname}!`, 'success');
+    showPage('home'); // redirect to dashboard (home)
+  } catch (e) {
+    showToast(getFriendlyError(e.code), 'error');
+  }
+};
+
+window.googleSignIn = async function() {
+  try {
+    await signInWithPopup(auth, googleProvider);
+    closeAuth();
+    showToast('Signed in with Google!', 'success');
+  } catch (e) {
+    if (e.code !== 'auth/popup-closed-by-user')
+      showToast(getFriendlyError(e.code), 'error');
+  }
+};
+
+window.handleSignOut = async function() {
+  await signOut(auth);
+  showToast('Signed out successfully');
+  showPage('home');
+};
+
+function getFriendlyError(code) {
+  const map = {
+    'auth/user-not-found': 'Email or password is incorrect',
+    'auth/wrong-password': 'Email or password is incorrect',
+    'auth/invalid-credential': 'Email or password is incorrect',
+    'auth/email-already-in-use': 'User already exists. Please sign in',
+    'auth/weak-password': 'Password must be at least 6 characters.',
+    'auth/invalid-email': 'Please enter a valid email.',
+    'auth/too-many-requests': 'Too many attempts. Please try again later.',
+    'auth/configuration-not-found': '⚠️ Firebase not configured yet. Add your Firebase config.',
+  };
+  return map[code] || 'An error occurred. Please try again.';
+}
+
+// ============================================================
+// ORDER SUBMISSION
+// ============================================================
+window.submitOrder = async function() {
+  const name = document.getElementById('cust-name').value;
+  const email = document.getElementById('cust-email').value;
+  const type = document.getElementById('jewelry-type').value;
+
+  if (!name || !email) { showToast('Please fill in your name and email', 'error'); return; }
+  if (!type) { showToast('Please select a jewelry type', 'error'); return; }
+
+  const btn = document.querySelector('.form-submit');
+  btn.innerHTML = '<span>Submitting…</span>';
+  btn.disabled = true;
+
+  try {
+    let imageUrl = null;
+    const fileInput = document.getElementById('image-upload');
+
+    // Upload image to Firebase Storage
+    if (fileInput.files.length > 0 && storage) {
+      try {
+        const file = fileInput.files[0];
+        const storageRef = ref(storage, `orders/${Date.now()}_${file.name}`);
+        const snap = await uploadBytes(storageRef, file);
+        imageUrl = await getDownloadURL(snap.ref);
+      } catch(e) { console.log('Image upload skipped:', e); }
+    }
+
+    const orderData = {
+      // Jewelry details
+      type: document.getElementById('jewelry-type').value,
+      style: document.getElementById('jewelry-style').value,
+      material: document.getElementById('jewelry-material').value,
+      gemstone: document.getElementById('jewelry-gem').value,
+      size: document.getElementById('jewelry-size').value,
+      colorTheme: document.querySelector('.swatch.selected')?.dataset.color || 'Gold',
+      colorNote: document.getElementById('color-note').value,
+      budget: parseInt(document.getElementById('budget-range').value),
+      description: document.getElementById('design-desc').value,
+      quantity: parseInt(document.getElementById('quantity').value),
+      referenceImage: imageUrl,
+      // Customer info
+      customerName: name,
+      customerEmail: email,
+      customerPhone: document.getElementById('cust-phone').value,
+      preferredContact: document.getElementById('cust-contact').value,
+      deliveryAddress: document.getElementById('cust-address').value,
+      // Meta
+      userId: currentUser?.uid || null,
+      status: 'pending',
+      createdAt: serverTimestamp()
+    };
+
+    let orderId = 'LUM-' + Date.now().toString(36).toUpperCase();
+
+    try {
+      const docRef = await addDoc(collection(db, 'customOrders'), orderData);
+      orderId = 'LUM-' + docRef.id.slice(-8).toUpperCase();
+    } catch(e) {
+      console.log('Firestore save skipped (config needed):', e);
+    }
+
+    // Show success
+    document.getElementById('custom-form-area').style.display = 'none';
+    const ss = document.getElementById('success-screen');
+    ss.classList.add('show');
+    document.getElementById('order-id-display').textContent = `Order ID: ${orderId}`;
+    showToast('Order submitted successfully! ✨', 'success');
+
+  } catch(e) {
+    showToast('Something went wrong. Please try again.', 'error');
+    btn.innerHTML = '<span>Submit Custom Order</span>';
+    btn.disabled = false;
+  }
+};
+
+// Make auth & page functions global
+window.openAuth = () => {
+  document.getElementById('auth-modal').classList.add('open');
+};
+window.closeAuth = () => {
+  document.getElementById('auth-modal').classList.remove('open');
+};
+window.switchTab = (tab) => {
+  document.querySelectorAll('.auth-tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='signup'));
+  });
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+};
+
+</script>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PRODUCTS = [
+  { id:1, name:'Aurora Solitaire', category:'rings', price:'$2,850', desc:'A timeless princess-cut diamond set in 18K white gold with a tapered band.', emoji:'💍', bg:'rings-bg', badge:'Bestseller' },
+  { id:2, name:'Cascade Pendant', category:'necklaces', price:'$1,490', desc:'Cascading diamond drops on a delicate 18K yellow gold chain.', emoji:'📿', bg:'necklace-bg', badge:null },
+  { id:3, name:'Infinity Cuff', category:'bracelets', price:'$3,200', desc:'Platinum infinity cuff with pavé-set round diamonds throughout.', emoji:'⌚', bg:'bracelet-bg', badge:'New' },
+  { id:4, name:'Lumière Drop', category:'earrings', price:'$4,100', desc:'Statement drop earrings featuring marquise-cut sapphires in 18K gold.', emoji:'✨', bg:'earring-bg', badge:null },
+  { id:5, name:'Bridal Set Royale', category:'bridal', price:'$8,600', desc:'Matching engagement ring and wedding band with baguette diamonds.', emoji:'👑', bg:'bridal-bg', badge:'Exclusive' },
+  { id:6, name:'Star Pendant', category:'pendants', price:'$720', desc:'Minimalist star pendant in sterling silver with a tiny aquamarine center.', emoji:'⭐', bg:'pendant-bg', badge:null },
+  { id:7, name:'Vintage Rose Ring', category:'rings', price:'$3,450', desc:'Edwardian-inspired filigree setting with a blush pink morganite center stone.', emoji:'🌹', bg:'rings-bg', badge:'Vintage' },
+  { id:8, name:'Deco Chain', category:'necklaces', price:'$2,100', desc:'Art Deco inspired geometric link chain in two-tone 18K gold.', emoji:'🔗', bg:'necklace-bg', badge:null },
+  { id:9, name:'Tennis Bracelet', category:'bracelets', price:'$5,800', desc:'Classic prong-set round brilliant diamond tennis bracelet in platinum.', emoji:'💎', bg:'bracelet-bg', badge:'Classic' },
+  { id:10, name:'Pearl Hoops', category:'earrings', price:'$1,180', desc:'South Sea pearl hoops suspended from 18K rose gold double loops.', emoji:'🔮', bg:'earring-bg', badge:null },
+  { id:11, name:'Bridal Crown Set', category:'bridal', price:'$12,400', desc:'Full parure — necklace, earrings, and bracelet in diamond-studded platinum.', emoji:'👰', bg:'bridal-bg', badge:'Luxury' },
+  { id:12, name:'Hamsa Pendant', category:'pendants', price:'$890', desc:'Hand-carved Hamsa pendant in 18K yellow gold with turquoise inlay.', emoji:'🤲', bg:'pendant-bg', badge:null },
+];
+
+let cart = JSON.parse(localStorage.getItem('lum_cart') || '[]');
+let wishlist = JSON.parse(localStorage.getItem('lum_wish') || '[]');
+
+// ============================================================
+// PAGE NAVIGATION
+// ============================================================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id + '-page').classList.add('active');
+  ['home','customize','cart'].forEach(n => {
+    document.getElementById('nav-'+n)?.classList.toggle('active', n===id);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'cart') renderCart();
+}
+
+// ============================================================
+// PRODUCTS
+// ============================================================
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('products-grid');
+  const items = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+  grid.innerHTML = items.map(p => `
+    <div class="product-card" data-category="${p.category}">
+      <div class="product-img product-img-bg ${p.bg}">
+        <span class="emoji">${p.emoji}</span>
+        <div class="product-img-overlay">
+          <button class="btn btn-solid" onclick="customizeProduct('${p.name}')"><span>Customize</span></button>
+        </div>
+        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-footer">
+          <div class="product-price">${p.price}</div>
+          <div class="product-actions">
+            <button class="icon-btn ${wishlist.includes(p.id)?'active':''}" onclick="toggleWishlist(${p.id},this)" title="Wishlist">♡</button>
+            <button class="icon-btn" onclick="addToCart(${p.id})" title="Add to Cart">🛒</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function customizeProduct(name) {
+  showPage('customize');
+  const typeMap = {ring:'Ring', necklace:'Necklace', bracelet:'Bracelet', earring:'Earrings', pendant:'Pendant', bridal:'Ring'};
+  const nameL = name.toLowerCase();
+  for (const [k,v] of Object.entries(typeMap)) {
+    if (nameL.includes(k)) {
+      document.getElementById('jewelry-type').value = v;
+      updateSummary();
+      break;
+    }
+  }
+  document.getElementById('design-desc').value = `Inspired by "${name}" — please customize accordingly.`;
+  showToast(`Customizing based on "${name}"`);
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(btn.dataset.filter);
+  });
+});
+
+// ============================================================
+// CART
+// ============================================================
+function saveCart() {
+  localStorage.setItem('lum_cart', JSON.stringify(cart));
+  document.getElementById('cart-count').textContent = cart.reduce((s,i)=>s+i.qty,0);
+}
+
+function addToCart(id) {
+  const product = PRODUCTS.find(p => p.id === id);
+  if (!product) return;
+  const existing = cart.find(i => i.id === id);
+  if (existing) existing.qty++;
+  else cart.push({ id, name: product.name, price: product.price, emoji: product.emoji, qty: 1 });
+  saveCart();
+  showToast(`"${product.name}" added to cart ✦`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function renderCart() {
+  const container = document.getElementById('cart-content');
+  if (cart.length === 0) {
+    container.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        <h2>Your cart is <em class="serif-italic">empty</em></h2>
+        <p>Discover our curated collection and add pieces that speak to you.</p>
+        <button class="btn" onclick="showPage('home')"><span>Browse Collection</span></button>
+      </div>`;
+    return;
+  }
+  const total = cart.reduce((s,i) => s + (parseFloat(i.price.replace(/[$,]/g,'')) * i.qty), 0);
+  container.innerHTML = `
+    <div class="cart-items">
+      ${cart.map(i => `
+        <div class="cart-item">
+          <div class="cart-item-icon">${i.emoji}</div>
+          <div class="cart-item-details">
+            <div class="cart-item-name">${i.name}</div>
+            <div class="cart-item-meta">Quantity: <span>${i.qty}</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div class="cart-item-price">${i.price}</div>
+            <button class="cart-item-remove" onclick="removeFromCart(${i.id})">✕</button>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <div class="cart-total-label">Total Estimate</div>
+        <div class="cart-total-amount">$${total.toLocaleString()}</div>
+      </div>
+      <div class="cart-actions">
+        <button class="btn btn-solid" onclick="checkoutCart()"><span>Proceed to Checkout</span></button>
+        <button class="btn btn-ghost" onclick="showPage('home')"><span>Continue Shopping</span></button>
+      </div>
+    </div>`;
+}
+
+function checkoutCart() {
+  if (!cart.length) return;
+  showToast('Proceeding to checkout… (connect payment gateway)', 'success');
+}
+
+// ============================================================
+// WISHLIST
+// ============================================================
+function toggleWishlist(id, btn) {
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(i => i !== id);
+    btn.classList.remove('active');
+    showToast('Removed from wishlist');
+  } else {
+    wishlist.push(id);
+    btn.classList.add('active');
+    showToast('Added to wishlist ♡');
+  }
+  localStorage.setItem('lum_wish', JSON.stringify(wishlist));
+}
+
+// ============================================================
+// CUSTOMIZE FORM HELPERS
+// ============================================================
+window.updateBudget = function(v) {
+  const val = parseInt(v);
+  const formatted = val >= 1000 ? '$' + (val/1000).toFixed(val%1000===0?0:1) + 'K' : '$' + val.toLocaleString();
+  document.getElementById('budget-display').textContent = '$' + parseInt(v).toLocaleString();
+  // Update range gradient
+  const pct = ((v - 100) / (50000 - 100)) * 100;
+  document.getElementById('budget-range').style.backgroundSize = pct + '% 100%';
+  updateSummary();
+};
+
+window.updateSummary = function() {
+  document.getElementById('s-type').textContent = document.getElementById('jewelry-type').value || '—';
+  document.getElementById('s-style').textContent = document.getElementById('jewelry-style').value || '—';
+  document.getElementById('s-material').textContent = document.getElementById('jewelry-material').value || '—';
+  document.getElementById('s-gem').textContent = document.getElementById('jewelry-gem').value || 'None';
+  document.getElementById('s-budget').textContent = '$' + parseInt(document.getElementById('budget-range').value).toLocaleString();
+  document.getElementById('s-qty').textContent = document.getElementById('quantity').value;
+};
+
+window.selectColor = function(el) {
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('s-color').textContent = el.dataset.color;
+};
+
+window.changeQty = function(delta) {
+  const input = document.getElementById('quantity');
+  let v = parseInt(input.value) + delta;
+  if (v < 1) v = 1; if (v > 99) v = 99;
+  input.value = v;
+  updateSummary();
+};
+
+window.handleImageUpload = function(input) {
+  if (!input.files.length) return;
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('upload-preview');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+  showToast('Image ready to upload ✦');
+};
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  toast.innerHTML = `<span>${type==='success'?'✓':type==='error'?'✕':'✦'}</span> ${message}`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3200);
+}
+window.showToast = showToast;
+
+// ============================================================
+// MOBILE NAV
+// ============================================================
+window.toggleMobileNav = function() {
+  document.getElementById('mobile-nav').classList.toggle('open');
+  document.getElementById('mobile-overlay').classList.toggle('open');
+};
+
+// ============================================================
+// SCROLL EFFECTS
+// ============================================================
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ============================================================
+// MARQUEE SETUP
+// ============================================================
+const marqueeItems = ['Handcrafted Luxury','Custom Bespoke Design','18K Gold & Platinum','Ethically Sourced Diamonds','Expert Craftsmanship','Free Engraving','Lifetime Warranty','Worldwide Delivery'];
+const marqueeEl = document.getElementById('marquee-inner');
+const doubled = [...marqueeItems, ...marqueeItems];
+marqueeEl.innerHTML = doubled.map(i => `<span class="marquee-item">${i}</span>`).join('');
+
+// ============================================================
+// INIT
+// ============================================================
+renderProducts();
+saveCart(); // Restore cart count
+updateBudget(2500);
+
+// Close auth modal on outside click
+document.getElementById('auth-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeAuth();
+});
+
+
+// ============================================================
+// LANGUAGE / i18n SYSTEM — Urdu ↔ English
+// ============================================================
+const TRANSLATIONS = {
+  en: {
+    nav_home: 'Home',
+    nav_customize: 'Customize',
+    nav_cart: 'Cart',
+    nav_login: 'Login',
+    hero_eyebrow: 'Bespoke Atelier Since 2026',
+    hero_title_1: 'Design Your',
+    hero_title_2: 'Dream Jewelry',
+    hero_subtitle: 'Every piece tells a story. From timeless rings to bespoke necklaces — we craft luxury jewelry tailored exclusively to your vision.',
+    hero_btn_customize: 'Start Customizing',
+    hero_btn_browse: 'Browse Collection',
+    stat_pieces: 'Pieces Crafted',
+    stat_delight: 'Client Delight',
+    stat_years: 'Years of Art',
+    collection_eyebrow: 'Our Atelier',
+    collection_title: 'Curated',
+    collection_title_em: 'Collection',
+    collection_subtitle: 'Explore our showcase of handcrafted designs — or use any as inspiration for your custom piece.',
+    filter_all: 'All',
+    filter_rings: 'Rings',
+    filter_necklaces: 'Necklaces',
+    filter_bracelets: 'Bracelets',
+    filter_earrings: 'Earrings',
+    filter_bridal: 'Bridal',
+    filter_pendants: 'Pendants',
+    cta_title: 'Have a Vision',
+    cta_title_em: 'in Mind?',
+    cta_text: 'Our master artisans will bring your dream jewelry to life. Share your design ideas, material preferences, and special requirements — and we\'ll create something extraordinary just for you.',
+    cta_btn: 'Begin Your Custom Order',
+    auth_tagline: 'Members receive exclusive atelier access',
+    auth_signin: 'Sign In',
+    auth_create: 'Create Account',
+    auth_email: 'Email Address',
+    auth_email_ph: 'your@email.com',
+    auth_password: 'Password',
+    auth_pw_ph: 'Min. 6 characters',
+    auth_fname: 'First Name',
+    auth_lname: 'Last Name',
+    auth_or: 'or continue with',
+    auth_google: 'Continue with Google',
+    lang_switch: 'اردو',
+  },
+  ur: {
+    nav_home: 'ہوم',
+    nav_customize: 'اپنی مرضی',
+    nav_cart: 'کارٹ',
+    nav_login: 'لاگ ان',
+    hero_eyebrow: 'خصوصی اٹیلیئر — ۲۰۲۶ سے',
+    hero_title_1: 'ڈیزائن کریں',
+    hero_title_2: 'خوابوں کا زیور',
+    hero_subtitle: 'ہر زیور ایک کہانی بیان کرتا ہے۔ انگوٹھیوں سے لے کر خاص ہاروں تک — ہم آپ کے تصور کے مطابق لگژری زیورات بناتے ہیں۔',
+    hero_btn_customize: 'اپنا ڈیزائن بنائیں',
+    hero_btn_browse: 'کلیکشن دیکھیں',
+    stat_pieces: 'بنائے گئے زیورات',
+    stat_delight: 'صارفین کی خوشی',
+    stat_years: 'سال کا فن',
+    collection_eyebrow: 'ہمارا اٹیلیئر',
+    collection_title: 'منتخب',
+    collection_title_em: 'کلیکشن',
+    collection_subtitle: 'ہمارے ہاتھ سے بنے ڈیزائنوں کی نمائش دیکھیں — یا کسی کو اپنے خاص زیور کی تحریک بنائیں۔',
+    filter_all: 'سب',
+    filter_rings: 'انگوٹھیاں',
+    filter_necklaces: 'ہار',
+    filter_bracelets: 'کنگن',
+    filter_earrings: 'بالیاں',
+    filter_bridal: 'دلہن',
+    filter_pendants: 'پینڈنٹ',
+    cta_title: 'کوئی خیال ہے',
+    cta_title_em: 'ذہن میں؟',
+    cta_text: 'ہمارے ماہر کاریگر آپ کے خوابوں کے زیور کو حقیقت بنائیں گے۔ اپنے ڈیزائن کے خیالات، مواد کی ترجیح، اور خاص ضروریات بتائیں — ہم آپ کے لیے کچھ غیر معمولی بنائیں گے۔',
+    cta_btn: 'اپنا آرڈر شروع کریں',
+    auth_tagline: 'ممبران کو خصوصی اٹیلیئر تک رسائی ملتی ہے',
+    auth_signin: 'سائن ان',
+    auth_create: 'اکاؤنٹ بنائیں',
+    auth_email: 'ای میل پتہ',
+    auth_email_ph: 'آپ کی ای میل',
+    auth_password: 'پاس ورڈ',
+    auth_pw_ph: 'کم از کم ۶ حروف',
+    auth_fname: 'پہلا نام',
+    auth_lname: 'آخری نام',
+    auth_or: 'یا جاری رکھیں',
+    auth_google: 'گوگل سے جاری رکھیں',
+    lang_switch: 'English',
+  }
+};
+
+let currentLang = 'en';
+
+window.toggleLanguage = function() {
+  currentLang = currentLang === 'en' ? 'ur' : 'en';
+  applyLanguage(currentLang);
+};
+
+function applyLanguage(lang) {
+  const t = TRANSLATIONS[lang];
+  const isUrdu = lang === 'ur';
+
+  // RTL / LTR
+  document.body.classList.toggle('rtl', isUrdu);
+  document.documentElement.lang = isUrdu ? 'ur' : 'en';
+
+  // Update toggle button label
+  document.getElementById('lang-label').textContent = t.lang_switch;
+
+  // Translate all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  // Translate placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+
+  // Save preference
+  localStorage.setItem('lum_lang', lang);
+}
+
+// Restore saved language on load
+const savedLang = localStorage.getItem('lum_lang');
+if (savedLang && savedLang !== 'en') {
+  currentLang = savedLang;
+  applyLanguage(savedLang);
+}
+</script>
+</body>
+</html>
