@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUMIÈRE — Bespoke Jewelry Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showPage('home')">LUMI<span>È</span>RE</a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home" data-i18n="nav_home">Home</a></li>
+    <li><a onclick="showPage('designers')" id="nav-designers" data-i18n="nav_designers">Designers</a></li>
+    <li><a onclick="showPage('customize')" id="nav-customize" data-i18n="nav_customize">Customize</a></li>
+    <li><a onclick="showPage('cart')" id="nav-cart" data-i18n="nav_cart">Cart</a></li>
+    <li id="nav-dashboard-li" style="display:none"><a onclick="showDashboard()" id="nav-dashboard">Dashboard</a></li>
+    <li><a onclick="openAuth()" id="nav-login" data-i18n="nav_login">Login</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="showPage('cart')" title="View Cart">
+      🛒 <span class="cart-count" id="cart-count">0</span>
+    </button>
+    <div id="notification-bell" style="position:relative;display:none">
+      <button class="cart-btn" onclick="toggleNotifications()" title="Notifications">
+        🔔 <span class="cart-count" id="notif-count" style="display:none">0</span>
+      </button>
+      <div id="notif-dropdown" class="notif-dropdown"></div>
+    </div>
+    <div id="user-display"></div>
+    <button class="lang-toggle" id="lang-toggle" onclick="toggleLanguage()" title="Switch Language">
+      <span id="lang-label">اردو</span>
+    </button>
+    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-overlay" id="mobile-overlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobile-nav">
+  <ul class="mobile-nav-links">
+    <li><a onclick="showPage('home');toggleMobileNav()">Home</a></li>
+    <li><a onclick="showPage('designers');toggleMobileNav()">Designers</a></li>
+    <li><a onclick="showPage('customize');toggleMobileNav()">Customize</a></li>
+    <li><a onclick="showPage('cart');toggleMobileNav()">Cart</a></li>
+    <li><a onclick="openAuth();toggleMobileNav()">Login</a></li>
+  </ul>
+</div>
+
+<!-- ============================================================
+     HOME PAGE
+     ============================================================ -->
+<div id="home-page" class="page active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-eyebrow" data-i18n="hero_eyebrow">Bespoke Atelier Since 2026</div>
+        <h1 class="hero-title">
+          <span data-i18n="hero_title_1">Design Your</span><br><em data-i18n="hero_title_2">Dream Jewelry</em>
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
+          Every piece tells a story. Discover talented designers — or commission your own bespoke creation with full support from concept to delivery.
+        </p>
+        <div class="hero-actions">
+          <button class="btn" onclick="showPage('customize')"><span data-i18n="hero_btn_customize">Start Customizing</span></button>
+          <button class="btn btn-ghost" onclick="showPage('designers')"><span>Meet Designers</span></button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="stat-number">2.4K+</div><div class="stat-label" data-i18n="stat_pieces">Pieces Crafted</div></div>
+          <div class="stat"><div class="stat-number">180+</div><div class="stat-label">Designers</div></div>
+          <div class="stat"><div class="stat-number">98%</div><div class="stat-label" data-i18n="stat_delight">Client Delight</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-ring-display">
+          <div class="ring-orbit"><div class="ring-dot"></div></div>
+          <div class="ring-orbit"><div class="ring-dot"></div></div>
+          <div class="ring-orbit"></div>
+          <div class="hero-gem"><span class="gem-icon">💍</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-strip"><div class="marquee-inner" id="marquee-inner"></div></div>
+
+  <!-- Featured Designers Strip -->
+  <section class="featured-designers-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Empowering Artisans</span>
+        <h2 class="section-title">Featured <em class="serif-italic">Designers</em></h2>
+        <p class="section-subtitle">Women artisans turning creativity into independence — discover their stories and commission directly.</p>
+      </div>
+      <div class="designers-row reveal" id="featured-designers-row"></div>
+      <div style="text-align:center;margin-top:2.5rem">
+        <button class="btn" onclick="showPage('designers')"><span>View All Designers</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collection -->
+  <section class="products-section" id="collection">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-eyebrow" data-i18n="collection_eyebrow">Our Atelier</span>
+        <h2 class="section-title"><span data-i18n="collection_title">Curated</span> <em class="serif-italic" data-i18n="collection_title_em">Collection</em></h2>
+        <p class="section-subtitle" data-i18n="collection_subtitle">Explore handcrafted designs — or use any as inspiration for your custom piece.</p>
+      </div>
+      <div class="filters reveal" id="filters">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+        <button class="filter-btn" data-filter="rings" data-i18n="filter_rings">Rings</button>
+        <button class="filter-btn" data-filter="necklaces" data-i18n="filter_necklaces">Necklaces</button>
+        <button class="filter-btn" data-filter="bracelets" data-i18n="filter_bracelets">Bracelets</button>
+        <button class="filter-btn" data-filter="earrings" data-i18n="filter_earrings">Earrings</button>
+        <button class="filter-btn" data-filter="bridal" data-i18n="filter_bridal">Bridal</button>
+        <button class="filter-btn" data-filter="pendants" data-i18n="filter_pendants">Pendants</button>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">The Process</span>
+        <h2 class="section-title">How It <em class="serif-italic">Works</em></h2>
+      </div>
+      <div class="how-steps reveal">
+        <div class="how-step"><div class="step-num">01</div><div class="step-icon">✦</div><h3>Discover</h3><p>Browse designs from independent women artisans across Pakistan and beyond.</p></div>
+        <div class="how-step"><div class="step-num">02</div><div class="step-icon">💎</div><h3>Customize</h3><p>Select style, color, material, and budget — or upload a reference image and instructions.</p></div>
+        <div class="how-step"><div class="step-num">03</div><div class="step-icon">💬</div><h3>Collaborate</h3><p>Chat directly with your chosen designer. Track progress with milestone updates.</p></div>
+        <div class="how-step"><div class="step-num">04</div><div class="step-icon">👑</div><h3>Receive</h3><p>Approve the final piece and have it delivered directly to your door.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner reveal">
+      <div class="divider"><span>◆</span></div>
+      <h2 class="cta-title"><span data-i18n="cta_title">Have a Vision</span> <em class="serif-italic" data-i18n="cta_title_em">in Mind?</em></h2>
+      <p class="cta-text" data-i18n="cta_text">Our master artisans will bring your dream jewelry to life. Share your design ideas, material preferences, and special requirements — and we'll create something extraordinary just for you.</p>
+      <button class="btn btn-solid" onclick="showPage('customize')"><span data-i18n="cta_btn">Begin Your Custom Order</span></button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">LUMI<span>È</span>RE</span>
+        <p class="footer-desc">A marketplace empowering women artisans. Every piece of jewelry we create is a testament to creativity and financial independence.</p>
+      </div>
+      <div class="footer-col"><h4>Collection</h4><ul><li><a>Rings</a></li><li><a>Necklaces</a></li><li><a>Bracelets</a></li><li><a>Earrings</a></li><li><a>Bridal Sets</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a onclick="showPage('customize')">Custom Design</a></li><li><a>Engraving</a></li><li><a>Restoration</a></li><li><a>Sizing</a></li><li><a>Appraisal</a></li></ul></div>
+      <div class="footer-col"><h4>Atelier</h4><ul><li><a>Our Story</a></li><li><a onclick="showPage('designers')">Our Designers</a></li><li><a>Materials</a></li><li><a>Contact</a></li><li><a>Care Guide</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lumière Jewelry Platform. All rights reserved.</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================================================
+     DESIGNERS PAGE
+     ============================================================ -->
+<div id="designers-page" class="page">
+  <div class="page-wrapper">
+    <div class="page-header">
+      <span class="section-eyebrow">The Artisans</span>
+      <h1>Our <em class="serif-italic gold">Designers</em></h1>
+      <p class="section-subtitle" style="margin:1rem auto 0">Independent women artisans crafting dreams into reality. Commission directly and support financial independence.</p>
+    </div>
+    <div class="designers-grid" id="designers-grid"></div>
+  </div>
+</div>
+
+<!-- DESIGNER PROFILE PAGE -->
+<div id="designer-profile-page" class="page">
+  <div class="page-wrapper">
+    <button class="back-btn" onclick="showPage('designers')">← Back to Designers</button>
+    <div id="designer-profile-content"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CUSTOMIZE PAGE
+     ============================================================ -->
+<div id="customize-page" class="page">
+  <div class="customize-wrapper">
+    <div class="customize-header">
+      <span class="section-eyebrow">Bespoke Creation</span>
+      <h1>Your <em class="serif-italic gold">Custom</em> Piece</h1>
+      <p class="section-subtitle" style="margin:1rem auto 0">Select a designer (optional) and fill in the details. Your artisan will respond within 24 hours.</p>
+    </div>
+
+    <div id="custom-form-area">
+      <!-- Designer Selector -->
+      <div class="designer-selector-section">
+        <div class="form-section-title">👩‍🎨 Choose a Designer (Optional)</div>
+        <div class="designer-selector-row" id="designer-selector-row"></div>
+        <p style="font-size:0.78rem;color:var(--text-dim);margin-top:0.75rem">Leave unselected to receive bids from multiple designers.</p>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <!-- Jewelry Details -->
+          <div class="form-section">
+            <div class="form-section-title">💎 Jewelry Details</div>
+            <div class="field-row">
+              <div class="field"><label>Jewelry Type</label>
+                <select id="jewelry-type" onchange="updateSummary()">
+                  <option value="">Select Type</option>
+                  <option>Ring</option><option>Necklace</option><option>Bracelet</option>
+                  <option>Earrings</option><option>Pendant</option><option>Brooch</option><option>Anklet</option>
+                </select>
+              </div>
+              <div class="field"><label>Style</label>
+                <select id="jewelry-style" onchange="updateSummary()">
+                  <option value="">Select Style</option>
+                  <option>Modern</option><option>Vintage</option><option>Minimal</option>
+                  <option>Art Deco</option><option>Bohemian</option><option>Classic</option><option>Statement</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Material</label>
+                <select id="jewelry-material" onchange="updateSummary()">
+                  <option value="">Select Material</option>
+                  <option>18K Yellow Gold</option><option>18K White Gold</option><option>18K Rose Gold</option>
+                  <option>Sterling Silver</option><option>Platinum</option><option>Titanium</option><option>Mixed Metals</option>
+                </select>
+              </div>
+              <div class="field"><label>Size (optional)</label>
+                <input type="text" id="jewelry-size" placeholder="e.g. Ring size 7, 18 inch chain" onchange="updateSummary()"/>
+              </div>
+            </div>
+            <div class="field"><label>Gemstone / Stone (optional)</label>
+              <select id="jewelry-gem" onchange="updateSummary()">
+                <option value="">No Gemstone</option>
+                <option>Diamond</option><option>Ruby</option><option>Sapphire</option><option>Emerald</option>
+                <option>Pearl</option><option>Amethyst</option><option>Topaz</option><option>Opal</option><option>Custom</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Color Preference -->
+          <div class="form-section">
+            <div class="form-section-title">🎨 Color Preference</div>
+            <div class="field"><label>Select Color Theme</label>
+              <div class="color-swatches" id="color-swatches">
+                <div class="swatch selected" style="background:#C9A96E" data-color="Gold" title="Gold" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#E8E8E8" data-color="Silver" title="Silver" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#E8B4C4" data-color="Rose Gold" title="Rose Gold" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#3B5998" data-color="Sapphire Blue" title="Sapphire Blue" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#2E7D32" data-color="Emerald Green" title="Emerald Green" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#C62828" data-color="Ruby Red" title="Ruby Red" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#4A148C" data-color="Amethyst Purple" title="Amethyst Purple" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#FFF9C4;border:1px solid #888" data-color="Pearl White" title="Pearl White" onclick="selectColor(this)"></div>
+                <div class="swatch" style="background:#0A0A0A;border:1px solid #555" data-color="Jet Black" title="Jet Black" onclick="selectColor(this)"></div>
+              </div>
+            </div>
+            <div class="field"><label>Custom Color Note</label>
+              <input type="text" id="color-note" placeholder="Describe any specific color or finish"/>
+            </div>
+          </div>
+
+          <!-- Budget -->
+          <div class="form-section">
+            <div class="form-section-title">💰 Budget Range</div>
+            <div class="field">
+              <div class="budget-display"><span>Your Budget</span><span class="budget-value" id="budget-display">$2,500</span></div>
+              <input type="range" class="range-input" id="budget-range" min="100" max="50000" step="100" value="2500" oninput="updateBudget(this.value)" onchange="updateSummary()"/>
+              <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-dim);margin-top:0.5rem"><span>$100</span><span>$50,000+</span></div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-section">
+            <div class="form-section-title">📝 Design Description</div>
+            <div class="field"><label>Special Instructions</label>
+              <textarea id="design-desc" placeholder="Describe your dream piece... Engraving, special symbols, inspirations, occasions (anniversary, engagement, gift)..." rows="5"></textarea>
+            </div>
+            <div class="field"><label>Reference Image (optional)</label>
+              <div class="upload-zone" id="upload-zone">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text"><strong>Click to upload</strong> or drag & drop<br>JPG, PNG, GIF up to 10MB</div>
+                <input type="file" id="image-upload" accept="image/*" onchange="handleImageUpload(this)"/>
+                <img id="upload-preview" alt="Reference preview"/>
+              </div>
+            </div>
+            <div class="field"><label>Quantity</label>
+              <div style="display:flex;gap:0.5rem;align-items:center">
+                <button class="icon-btn" onclick="changeQty(-1)">−</button>
+                <input type="number" id="quantity" value="1" min="1" max="99" style="width:60px;text-align:center" onchange="updateSummary()"/>
+                <button class="icon-btn" onclick="changeQty(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer Info -->
+          <div class="form-section">
+            <div class="form-section-title">👤 Your Information</div>
+            <div class="field-row">
+              <div class="field"><label>Full Name *</label><input type="text" id="cust-name" placeholder="Your full name" required/></div>
+              <div class="field"><label>Email Address *</label><input type="email" id="cust-email" placeholder="your@email.com" required/></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Phone Number</label><input type="tel" id="cust-phone" placeholder="+92 300 0000000"/></div>
+              <div class="field"><label>Preferred Contact</label>
+                <select id="cust-contact"><option>Email</option><option>Phone</option><option>WhatsApp</option></select>
+              </div>
+            </div>
+            <div class="field"><label>Delivery Address</label>
+              <textarea id="cust-address" placeholder="Street address, City, State, ZIP, Country" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div>
+          <div class="order-summary">
+            <h3>Order Summary</h3>
+            <ul class="summary-items" id="summary-items">
+              <li class="summary-item"><span>Jewelry Type</span><span id="s-type">—</span></li>
+              <li class="summary-item"><span>Style</span><span id="s-style">—</span></li>
+              <li class="summary-item"><span>Material</span><span id="s-material">—</span></li>
+              <li class="summary-item"><span>Gemstone</span><span id="s-gem">None</span></li>
+              <li class="summary-item"><span>Color Theme</span><span id="s-color">Gold</span></li>
+              <li class="summary-item"><span>Budget</span><span id="s-budget">$2,500</span></li>
+              <li class="summary-item"><span>Designer</span><span id="s-designer">Any</span></li>
+              <li class="summary-item"><span>Quantity</span><span id="s-qty">1</span></li>
+            </ul>
+            <div class="summary-note">✦ Your designer will review and contact you within 24 hours with a detailed quote and timeline.</div>
+            <button class="btn btn-solid form-submit" onclick="submitOrder()"><span>Submit Custom Order</span></button>
+            <div style="margin-top:1rem;text-align:center">
+              <span style="font-size:0.7rem;color:var(--text-dim)">🔒 Secure · No payment required now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">✨</div>
+      <h2>Order <em class="serif-italic gold">Received!</em></h2>
+      <p>Your bespoke jewelry request has been submitted. Your designer will respond within 24 hours. You can track progress and chat in your dashboard.</p>
+      <div class="order-id" id="order-id-display">Order ID: Loading…</div>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-solid" onclick="showDashboard()"><span>View in Dashboard</span></button>
+        <button class="btn" onclick="showPage('home')"><span>Back to Collection</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CART PAGE
+     ============================================================ -->
+<div id="cart-page" class="page">
+  <div class="cart-wrapper">
+    <div class="cart-header">
+      <h1>Your <em class="serif-italic">Cart</em></h1>
+      <p class="section-eyebrow" style="margin-top:0.5rem">Selected pieces & custom orders</p>
+    </div>
+    <div id="cart-content"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CUSTOMER DASHBOARD
+     ============================================================ -->
+<div id="customer-dashboard-page" class="page">
+  <div class="dashboard-wrapper">
+    <div class="dashboard-sidebar">
+      <div class="dash-logo">LUMI<span>È</span>RE</div>
+      <div class="dash-user-info" id="dash-user-info"></div>
+      <nav class="dash-nav">
+        <a class="dash-link active" onclick="switchDashTab('orders')" data-tab="orders">📦 My Orders</a>
+        <a class="dash-link" onclick="switchDashTab('wishlist')" data-tab="wishlist">♡ Wishlist</a>
+        <a class="dash-link" onclick="switchDashTab('messages')" data-tab="messages">💬 Messages <span class="dash-badge" id="msg-badge" style="display:none">!</span></a>
+        <a class="dash-link" onclick="switchDashTab('profile')" data-tab="profile">👤 Profile</a>
+      </nav>
+      <button class="btn btn-ghost" style="margin-top:auto;width:100%;justify-content:center" onclick="handleSignOut()"><span>Sign Out</span></button>
+    </div>
+    <div class="dashboard-main">
+      <!-- Orders Tab -->
+      <div class="dash-tab active" id="dash-orders">
+        <h2 class="dash-title">My Orders</h2>
+        <div id="customer-orders-list"></div>
+      </div>
+      <!-- Wishlist Tab -->
+      <div class="dash-tab" id="dash-wishlist">
+        <h2 class="dash-title">My Wishlist</h2>
+        <div id="customer-wishlist-grid" class="products-grid" style="max-width:100%"></div>
+      </div>
+      <!-- Messages Tab -->
+      <div class="dash-tab" id="dash-messages">
+        <h2 class="dash-title">Messages</h2>
+        <div class="chat-panel" id="customer-chat-panel">
+          <div class="chat-list" id="customer-chat-list"></div>
+          <div class="chat-window" id="customer-chat-window">
+            <div class="chat-empty-state">Select a conversation to view messages</div>
+          </div>
+        </div>
+      </div>
+      <!-- Profile Tab -->
+      <div class="dash-tab" id="dash-profile">
+        <h2 class="dash-title">My Profile</h2>
+        <div class="profile-form" id="customer-profile-form">
+          <div class="field-row">
+            <div class="field"><label>Display Name</label><input type="text" id="prof-name" placeholder="Your name"/></div>
+            <div class="field"><label>Phone</label><input type="tel" id="prof-phone" placeholder="+92 300 0000000"/></div>
+          </div>
+          <div class="field"><label>Bio</label><textarea id="prof-bio" rows="3" placeholder="Tell designers about yourself, your taste, occasions…"></textarea></div>
+          <div class="field"><label>Preferred Delivery Address</label><textarea id="prof-address" rows="3" placeholder="Default shipping address"></textarea></div>
+          <button class="btn btn-solid" onclick="saveCustomerProfile()"><span>Save Profile</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     DESIGNER DASHBOARD
+     ============================================================ -->
+<div id="designer-dashboard-page" class="page">
+  <div class="dashboard-wrapper">
+    <div class="dashboard-sidebar">
+      <div class="dash-logo">LUMI<span>È</span>RE</div>
+      <div class="dash-user-info" id="des-user-info"></div>
+      <nav class="dash-nav">
+        <a class="dash-link active" onclick="switchDesignerTab('portfolio')" data-tab="portfolio">🖼 My Portfolio</a>
+        <a class="dash-link" onclick="switchDesignerTab('requests')" data-tab="requests">📬 Requests <span class="dash-badge" id="req-badge" style="display:none">!</span></a>
+        <a class="dash-link" onclick="switchDesignerTab('orders')" data-tab="orders">📦 Active Orders</a>
+        <a class="dash-link" onclick="switchDesignerTab('messages')" data-tab="messages">💬 Messages</a>
+        <a class="dash-link" onclick="switchDesignerTab('profile')" data-tab="profile">👩‍🎨 Profile</a>
+      </nav>
+      <button class="btn btn-ghost" style="margin-top:auto;width:100%;justify-content:center" onclick="handleSignOut()"><span>Sign Out</span></button>
+    </div>
+    <div class="dashboard-main">
+      <!-- Portfolio Tab -->
+      <div class="dash-tab active" id="des-portfolio">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+          <h2 class="dash-title" style="margin:0">My Portfolio</h2>
+          <button class="btn btn-solid" onclick="openUploadModal()"><span>+ Upload Design</span></button>
+        </div>
+        <div id="designer-portfolio-grid" class="products-grid" style="max-width:100%"></div>
+      </div>
+      <!-- Requests Tab -->
+      <div class="dash-tab" id="des-requests">
+        <h2 class="dash-title">Customization Requests</h2>
+        <div id="designer-requests-list"></div>
+      </div>
+      <!-- Active Orders Tab -->
+      <div class="dash-tab" id="des-orders">
+        <h2 class="dash-title">Active Orders</h2>
+        <div id="designer-orders-list"></div>
+      </div>
+      <!-- Messages Tab -->
+      <div class="dash-tab" id="des-messages">
+        <h2 class="dash-title">Messages</h2>
+        <div class="chat-panel" id="designer-chat-panel">
+          <div class="chat-list" id="designer-chat-list"></div>
+          <div class="chat-window" id="designer-chat-window">
+            <div class="chat-empty-state">Select a conversation to view messages</div>
+          </div>
+        </div>
+      </div>
+      <!-- Profile Tab -->
+      <div class="dash-tab" id="des-profile">
+        <h2 class="dash-title">Designer Profile</h2>
+        <div class="profile-form">
+          <div class="field-row">
+            <div class="field"><label>Display Name</label><input type="text" id="des-prof-name" placeholder="Your artisan name"/></div>
+            <div class="field"><label>Specialty</label>
+              <select id="des-prof-specialty">
+                <option>Rings & Engagement</option><option>Necklaces & Pendants</option>
+                <option>Bridal Sets</option><option>Earrings</option><option>Custom Pieces</option><option>All Categories</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label>Bio / Story</label><textarea id="des-prof-bio" rows="4" placeholder="Tell customers about your craft, your inspiration, your journey as a designer…"></textarea></div>
+          <div class="field"><label>Skills (comma-separated)</label><input type="text" id="des-prof-skills" placeholder="e.g. Filigree, Stone Setting, Engraving, CAD Design"/></div>
+          <div class="field"><label>Years of Experience</label><input type="number" id="des-prof-years" min="0" max="50" value="1"/></div>
+          <div class="field"><label>Profile Picture URL (optional)</label><input type="url" id="des-prof-avatar" placeholder="https://..."/></div>
+          <button class="btn btn-solid" onclick="saveDesignerProfile()"><span>Save Profile</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     AUTH MODAL (with role selection)
+     ============================================================ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()">✕</button>
+    <div class="modal-logo">LUMI<span>È</span>RE</div>
+    <div class="modal-tagline" data-i18n="auth_tagline">Members receive exclusive atelier access</div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')" data-i18n="auth_signin">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('signup')" data-i18n="auth_create">Create Account</button>
+    </div>
+
+    <!-- Login -->
+    <div class="auth-form active" id="tab-login">
+      <div class="field"><label data-i18n="auth_email">Email Address</label>
+        <input type="email" id="login-email" placeholder="your@email.com" data-i18n-placeholder="auth_email_ph"/>
+      </div>
+      <div class="field"><label data-i18n="auth_password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••"/>
+      </div>
+      <button class="auth-submit" onclick="loginUser()" data-i18n="auth_signin">Sign In</button>
+      <div class="auth-divider" data-i18n="auth_or">or continue with</div>
+      <button class="google-btn" onclick="googleSignIn()">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span data-i18n="auth_google">Continue with Google</span>
+      </button>
+    </div>
+
+    <!-- Signup -->
+    <div class="auth-form" id="tab-signup">
+      <!-- Role Selection -->
+      <div class="role-selector">
+        <div class="role-card active" id="role-customer" onclick="selectRole('customer')">
+          <div class="role-icon">🛍️</div>
+          <div class="role-label">Customer</div>
+          <div class="role-desc">Browse & commission jewelry</div>
+        </div>
+        <div class="role-card" id="role-designer" onclick="selectRole('designer')">
+          <div class="role-icon">💎</div>
+          <div class="role-label">Designer</div>
+          <div class="role-desc">Sell your creations</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label data-i18n="auth_fname">First Name</label>
+          <input type="text" id="signup-fname" placeholder="First name"/>
+        </div>
+        <div class="field"><label data-i18n="auth_lname">Last Name</label>
+          <input type="text" id="signup-lname" placeholder="Last name"/>
+        </div>
+      </div>
+      <div class="field"><label data-i18n="auth_email">Email Address</label>
+        <input type="email" id="signup-email" placeholder="your@email.com"/>
+      </div>
+      <div class="field"><label data-i18n="auth_password">Password</label>
+        <input type="password" id="signup-password" placeholder="Min. 6 characters" data-i18n-placeholder="auth_pw_ph"/>
+      </div>
+      <button class="auth-submit" onclick="signupUser()" data-i18n="auth_create">Create Account</button>
+      <div class="auth-divider" data-i18n="auth_or">or continue with</div>
+      <button class="google-btn" onclick="googleSignIn()">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span data-i18n="auth_google">Continue with Google</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Design Modal -->
+<div class="modal-overlay" id="upload-modal">
+  <div class="modal" style="max-width:560px">
+    <button class="modal-close" onclick="closeUploadModal()">✕</button>
+    <div class="modal-logo" style="font-size:1.4rem;margin-bottom:1.5rem">Upload Design</div>
+    <div class="field"><label>Design Title *</label><input type="text" id="upload-title" placeholder="e.g. Celestial Filigree Ring"/></div>
+    <div class="field"><label>Category</label>
+      <select id="upload-category">
+        <option value="rings">Rings</option><option value="necklaces">Necklaces</option>
+        <option value="bracelets">Bracelets</option><option value="earrings">Earrings</option>
+        <option value="bridal">Bridal</option><option value="pendants">Pendants</option>
+      </select>
+    </div>
+    <div class="field"><label>Price (USD) *</label><input type="number" id="upload-price" placeholder="e.g. 1200" min="0"/></div>
+    <div class="field"><label>Description</label>
+      <textarea id="upload-desc" rows="3" placeholder="Describe materials, inspiration, crafting process…"></textarea>
+    </div>
+    <div class="field"><label>Design Image</label>
+      <div class="upload-zone" style="padding:1.5rem">
+        <div class="upload-text"><strong>Click to upload</strong> design photo</div>
+        <input type="file" id="design-image-upload" accept="image/*" onchange="previewDesignImage(this)"/>
+        <img id="design-upload-preview" alt="Preview" style="max-width:100%;max-height:150px;margin-top:1rem;display:none;object-fit:cover"/>
+      </div>
+    </div>
+    <button class="auth-submit" onclick="submitDesignUpload()">Upload Design</button>
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal-overlay" id="order-detail-modal">
+  <div class="modal" style="max-width:680px;max-height:85vh;overflow-y:auto">
+    <button class="modal-close" onclick="closeOrderModal()">✕</button>
+    <div id="order-detail-content"></div>
+  </div>
+</div>
+
+<!-- Rating Modal -->
+<div class="modal-overlay" id="rating-modal">
+  <div class="modal" style="max-width:460px">
+    <button class="modal-close" onclick="closeRatingModal()">✕</button>
+    <div class="modal-logo" style="font-size:1.3rem;margin-bottom:1rem">Rate Your Experience</div>
+    <div id="rating-modal-content"></div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- ============================================================
+     FIREBASE + JAVASCRIPT
+     ============================================================ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+         GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, updateProfile
+       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp, doc, setDoc, getDoc,
+         query, where, getDocs, orderBy, updateDoc, onSnapshot
+       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL
+       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCpqo_a0KTT6bc8ntGfo4UB1iujIORwxUc",
+  authDomain: "lumi-2e197.firebaseapp.com",
+  projectId: "lumi-2e197",
+  storageBucket: "lumi-2e197.firebasestorage.app",
+  messagingSenderId: "891855788499",
+  appId: "1:891855788499:web:e2212fd64f63abe4be7726"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const googleProvider = new GoogleAuthProvider();
+
+let currentUser = null;
+let currentUserRole = null;
+let currentUserProfile = null;
+
+// ============================================================
+// AUTH STATE
+// ============================================================
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if (user) {
+    try {
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (userDoc.exists()) {
+        currentUserProfile = userDoc.data();
+        currentUserRole = currentUserProfile.role;
+      } else {
+        currentUserRole = 'customer';
+        currentUserProfile = { role: 'customer', name: user.displayName || '', email: user.email };
+      }
+    } catch(e) {
+      currentUserRole = localStorage.getItem('lum_role_' + user.uid) || 'customer';
+      currentUserProfile = { role: currentUserRole, name: user.displayName || '', email: user.email };
+    }
+  } else {
+    currentUserRole = null;
+    currentUserProfile = null;
+  }
+  updateUserUI(user);
+});
+
+function updateUserUI(user) {
+  const display = document.getElementById('user-display');
+  const loginLink = document.getElementById('nav-login');
+  const dashLi = document.getElementById('nav-dashboard-li');
+  const notifBell = document.getElementById('notification-bell');
+  if (user) {
+    const initials = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+    const name = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
+    const roleLabel = currentUserRole === 'designer' ? '✦ Designer' : '✦ Customer';
+    display.innerHTML = `
+      <div class="user-badge" onclick="showDashboard()">
+        <div class="user-avatar">${initials}</div>
+        <div>
+          <div class="user-name">${name}</div>
+          <div style="font-size:0.6rem;color:var(--gold);letter-spacing:0.1em">${roleLabel}</div>
+        </div>
+      </div>`;
+    loginLink.style.display = 'none';
+    dashLi.style.display = '';
+    notifBell.style.display = '';
+  } else {
+    display.innerHTML = '';
+    loginLink.style.display = '';
+    dashLi.style.display = 'none';
+    notifBell.style.display = 'none';
+  }
+}
+
+// ============================================================
+// AUTH FUNCTIONS
+// ============================================================
+let selectedRole = 'customer';
+window.selectRole = function(role) {
+  selectedRole = role;
+  document.getElementById('role-customer').classList.toggle('active', role === 'customer');
+  document.getElementById('role-designer').classList.toggle('active', role === 'designer');
+};
+
+window.loginUser = async function() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) { showToast('Please fill in all fields', 'error'); return; }
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    closeAuth();
+    showToast('Welcome back!', 'success');
+    showDashboard();
+  } catch (e) { showToast(getFriendlyError(e.code), 'error'); }
+};
+
+window.signupUser = async function() {
+  const fname = document.getElementById('signup-fname').value;
+  const lname = document.getElementById('signup-lname').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+  if (!email || !password || !fname) { showToast('Please fill in required fields', 'error'); return; }
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(cred.user, { displayName: fname + ' ' + lname });
+    const userData = { role: selectedRole, name: fname + ' ' + lname, email, createdAt: serverTimestamp() };
+    try { await setDoc(doc(db, 'users', cred.user.uid), userData); } catch(e) {}
+    localStorage.setItem('lum_role_' + cred.user.uid, selectedRole);
+    currentUserRole = selectedRole;
+    closeAuth();
+    showToast(`Welcome to Lumière, ${fname}!`, 'success');
+    showDashboard();
+  } catch (e) { showToast(getFriendlyError(e.code), 'error'); }
+};
+
+window.googleSignIn = async function() {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+    try {
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (!userDoc.exists()) {
+        await setDoc(doc(db, 'users', user.uid), { role: selectedRole, name: user.displayName || '', email: user.email, createdAt: serverTimestamp() });
+        localStorage.setItem('lum_role_' + user.uid, selectedRole);
+      }
+    } catch(e) {}
+    closeAuth();
+    showToast('Signed in with Google!', 'success');
+    showDashboard();
+  } catch (e) {
+    if (e.code !== 'auth/popup-closed-by-user') showToast(getFriendlyError(e.code), 'error');
+  }
+};
+
+window.handleSignOut = async function() {
+  await signOut(auth);
+  showToast('Signed out successfully');
+  showPage('home');
+};
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+window.showDashboard = function() {
+  if (!currentUser) { openAuth(); return; }
+  if (currentUserRole === 'designer') {
+    showPage('designer-dashboard');
+    loadDesignerDashboard();
+  } else {
+    showPage('customer-dashboard');
+    loadCustomerDashboard();
+  }
+};
+
+function loadCustomerDashboard() {
+  const info = document.getElementById('dash-user-info');
+  const name = currentUser.displayName || currentUser.email?.split('@')[0] || 'Guest';
+  info.innerHTML = `
+    <div class="dash-avatar">${name.charAt(0).toUpperCase()}</div>
+    <div class="dash-name">${name}</div>
+    <div style="font-size:0.65rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase">Customer</div>`;
+  loadCustomerOrders();
+  loadCustomerWishlist();
+  loadCustomerChats();
+}
+
+function loadDesignerDashboard() {
+  const info = document.getElementById('des-user-info');
+  const name = currentUser.displayName || currentUser.email?.split('@')[0] || 'Designer';
+  info.innerHTML = `
+    <div class="dash-avatar">${name.charAt(0).toUpperCase()}</div>
+    <div class="dash-name">${name}</div>
+    <div style="font-size:0.65rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase">Designer</div>`;
+  loadDesignerPortfolio();
+  loadDesignerRequests();
+  loadDesignerOrders();
+  loadDesignerChats();
+}
+
+// ============================================================
+// CUSTOMER: ORDERS
+// ============================================================
+async function loadCustomerOrders() {
+  const el = document.getElementById('customer-orders-list');
+  el.innerHTML = '<div class="loading-state">Loading orders…</div>';
+  try {
+    const q = query(collection(db, 'customOrders'), where('userId', '==', currentUser.uid), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    if (snap.empty) {
+      el.innerHTML = `<div class="empty-state"><div style="font-size:3rem">📦</div><p>No orders yet. <a onclick="showPage('customize')" style="color:var(--gold);cursor:pointer">Start a custom order</a>.</p></div>`;
+      return;
+    }
+    el.innerHTML = snap.docs.map(d => {
+      const o = d.data();
+      return `<div class="order-card" onclick="openOrderDetail('${d.id}','customer')">
+        <div class="order-card-left">
+          <div class="order-id-tag">LUM-${d.id.slice(-8).toUpperCase()}</div>
+          <div class="order-card-title">${o.type || 'Custom Order'} · ${o.style || ''}</div>
+          <div class="order-card-meta">${o.material || ''} ${o.gemstone ? '· '+o.gemstone : ''} · Budget $${(o.budget||0).toLocaleString()}</div>
+        </div>
+        <div class="order-card-right">
+          <div class="order-status ${o.status}">${statusLabel(o.status)}</div>
+          <div class="order-card-date">${o.createdAt?.toDate ? o.createdAt.toDate().toLocaleDateString() : 'Recent'}</div>
+          ${o.status === 'completed' && !o.rated ? `<button class="btn btn-solid" style="padding:0.4rem 1rem;font-size:0.65rem" onclick="event.stopPropagation();openRating('${d.id}')"><span>Rate</span></button>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    // Demo orders
+    el.innerHTML = renderDemoOrders();
+  }
+}
+
+function renderDemoOrders() {
+  const orders = [
+    { id:'DEMO01', type:'Ring', style:'Vintage', material:'18K Rose Gold', gemstone:'Ruby', budget:3200, status:'in_progress', date:'Apr 20, 2026' },
+    { id:'DEMO02', type:'Necklace', style:'Modern', material:'Sterling Silver', gemstone:'Diamond', budget:1800, status:'pending', date:'Apr 18, 2026' },
+    { id:'DEMO03', type:'Earrings', style:'Classic', material:'18K Yellow Gold', gemstone:'Pearl', budget:950, status:'completed', date:'Mar 15, 2026' },
+  ];
+  return orders.map(o => `
+    <div class="order-card" onclick="openOrderDetail('${o.id}','customer')">
+      <div class="order-card-left">
+        <div class="order-id-tag">LUM-${o.id}</div>
+        <div class="order-card-title">${o.type} · ${o.style}</div>
+        <div class="order-card-meta">${o.material} · ${o.gemstone} · Budget $${o.budget.toLocaleString()}</div>
+      </div>
+      <div class="order-card-right">
+        <div class="order-status ${o.status}">${statusLabel(o.status)}</div>
+        <div class="order-card-date">${o.date}</div>
+      </div>
+    </div>`).join('');
+}
+
+function statusLabel(s) {
+  const map = { pending:'⏳ Pending', accepted:'✓ Accepted', in_progress:'🔨 In Progress', preview_ready:'👁 Preview Ready', completed:'✅ Completed', revision_requested:'🔄 Revision' };
+  return map[s] || s || 'Pending';
+}
+
+// ============================================================
+// CUSTOMER: WISHLIST
+// ============================================================
+function loadCustomerWishlist() {
+  const grid = document.getElementById('customer-wishlist-grid');
+  if (!wishlist.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div style="font-size:3rem">♡</div><p>Your wishlist is empty.</p></div>`;
+    return;
+  }
+  const items = PRODUCTS.filter(p => wishlist.includes(p.id));
+  grid.innerHTML = items.map(p => `
+    <div class="product-card">
+      <div class="product-img product-img-bg ${p.bg}">
+        <span class="emoji">${p.emoji}</span>
+        <div class="product-img-overlay">
+          <button class="btn btn-solid" onclick="customizeProduct('${p.name}')"><span>Customize</span></button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-footer">
+          <div class="product-price">${p.price}</div>
+          <div class="product-actions">
+            <button class="icon-btn active" onclick="toggleWishlist(${p.id},this)" title="Remove">♡</button>
+            <button class="icon-btn" onclick="addToCart(${p.id})" title="Add to Cart">🛒</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ============================================================
+// DESIGNER: PORTFOLIO
+// ============================================================
+let designerDesigns = JSON.parse(localStorage.getItem('lum_designs') || '[]');
+
+function loadDesignerPortfolio() {
+  const grid = document.getElementById('designer-portfolio-grid');
+  if (!designerDesigns.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div style="font-size:3rem">🖼</div><p>No designs yet. Upload your first piece!</p></div>`;
+    return;
+  }
+  grid.innerHTML = designerDesigns.map((d,i) => `
+    <div class="product-card">
+      <div class="product-img product-img-bg rings-bg" style="${d.imageUrl ? 'background-image:url('+d.imageUrl+');background-size:cover;background-position:center' : ''}">
+        ${!d.imageUrl ? `<span class="emoji">💎</span>` : ''}
+        <div class="product-img-overlay">
+          <button class="btn" onclick="removeDesign(${i})" style="border-color:#e84040;color:#e84040"><span>Remove</span></button>
+        </div>
+        <div class="product-badge">${d.category}</div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${d.category}</div>
+        <div class="product-name">${d.title}</div>
+        <div class="product-desc">${d.desc || ''}</div>
+        <div class="product-footer">
+          <div class="product-price">$${parseInt(d.price||0).toLocaleString()}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+window.removeDesign = function(i) {
+  designerDesigns.splice(i,1);
+  localStorage.setItem('lum_designs', JSON.stringify(designerDesigns));
+  loadDesignerPortfolio();
+  showToast('Design removed');
+};
+
+// ============================================================
+// DESIGNER: REQUESTS
+// ============================================================
+async function loadDesignerRequests() {
+  const el = document.getElementById('designer-requests-list');
+  el.innerHTML = '<div class="loading-state">Loading requests…</div>';
+  try {
+    const q = query(collection(db, 'customOrders'), where('designerId', '==', currentUser.uid), where('status','==','pending'));
+    const snap = await getDocs(q);
+    if (snap.empty) throw new Error('demo');
+    el.innerHTML = snap.docs.map(d => renderRequestCard(d.id, d.data())).join('');
+  } catch(e) {
+    el.innerHTML = renderDemoRequests();
+  }
+}
+
+function renderRequestCard(id, o) {
+  return `<div class="order-card" onclick="openOrderDetail('${id}','designer')">
+    <div class="order-card-left">
+      <div class="order-id-tag">REQ-${id.slice(-8).toUpperCase()}</div>
+      <div class="order-card-title">${o.type||'Custom'} · ${o.style||''} · Budget $${(o.budget||0).toLocaleString()}</div>
+      <div class="order-card-meta">From: ${o.customerName||'Customer'} · ${o.material||''} ${o.gemstone?'· '+o.gemstone:''}</div>
+    </div>
+    <div class="order-card-right">
+      <button class="btn btn-solid" style="padding:0.5rem 1.2rem;font-size:0.65rem" onclick="event.stopPropagation();acceptRequest('${id}')"><span>Accept</span></button>
+      <button class="btn" style="padding:0.5rem 1.2rem;font-size:0.65rem;border-color:rgba(232,64,64,0.5);color:#e84040" onclick="event.stopPropagation();declineRequest('${id}')"><span>Decline</span></button>
+    </div>
+  </div>`;
+}
+
+function renderDemoRequests() {
+  const reqs = [
+    { id:'R001', type:'Ring', style:'Vintage', material:'18K Gold', gemstone:'Emerald', budget:2800, customer:'Ayesha K.' },
+    { id:'R002', type:'Necklace', style:'Modern', material:'Sterling Silver', gemstone:'Diamond', budget:1500, customer:'Sara M.' },
+  ];
+  return reqs.map(r => `
+    <div class="order-card">
+      <div class="order-card-left">
+        <div class="order-id-tag">REQ-${r.id}</div>
+        <div class="order-card-title">${r.type} · ${r.style} · Budget $${r.budget.toLocaleString()}</div>
+        <div class="order-card-meta">From: ${r.customer} · ${r.material} · ${r.gemstone}</div>
+      </div>
+      <div class="order-card-right">
+        <button class="btn btn-solid" style="padding:0.5rem 1.2rem;font-size:0.65rem" onclick="showToast('Request accepted! ✓','success')"><span>Accept</span></button>
+        <button class="btn" style="padding:0.5rem 1.2rem;font-size:0.65rem;border-color:rgba(232,64,64,0.5);color:#e84040" onclick="showToast('Request declined')"><span>Decline</span></button>
+      </div>
+    </div>`).join('');
+}
+
+async function loadDesignerOrders() {
+  const el = document.getElementById('designer-orders-list');
+  el.innerHTML = '<div class="loading-state">Loading orders…</div>';
+  // Demo
+  const orders = [
+    { id:'A01', customer:'Fatima R.', item:'Bridal Set', status:'in_progress', budget:8200 },
+    { id:'A02', customer:'Zara T.', item:'Pearl Earrings', status:'preview_ready', budget:1100 },
+  ];
+  el.innerHTML = orders.length ? orders.map(o => `
+    <div class="order-card" onclick="openOrderDetail('${o.id}','designer-active')">
+      <div class="order-card-left">
+        <div class="order-id-tag">ORD-${o.id}</div>
+        <div class="order-card-title">${o.item} for ${o.customer}</div>
+        <div class="order-card-meta">Budget: $${o.budget.toLocaleString()}</div>
+      </div>
+      <div class="order-card-right">
+        <div class="order-status ${o.status}">${statusLabel(o.status)}</div>
+        <button class="btn" style="padding:0.4rem 1rem;font-size:0.65rem;margin-top:0.5rem" onclick="event.stopPropagation();openProgressUpload('${o.id}')"><span>Upload Progress</span></button>
+      </div>
+    </div>`).join('') : '<div class="empty-state"><p>No active orders.</p></div>';
+}
+
+// ============================================================
+// CHAT SYSTEM
+// ============================================================
+let activeChat = null;
+let chatMessages = JSON.parse(localStorage.getItem('lum_chats') || '{}');
+
+function loadCustomerChats() {
+  const list = document.getElementById('customer-chat-list');
+  const demoChats = [
+    { id:'chat1', name:'Amna (Designer)', lastMsg:'Your ring design is ready for review!', unread:1 },
+    { id:'chat2', name:'Sara Crafts', lastMsg:'I can start next week.', unread:0 },
+  ];
+  list.innerHTML = demoChats.map(c => `
+    <div class="chat-list-item ${c.unread?'unread':''}" onclick="openChat('${c.id}','${c.name}','customer')">
+      <div class="chat-avatar">${c.name.charAt(0)}</div>
+      <div class="chat-preview">
+        <div class="chat-name">${c.name} ${c.unread?`<span class="unread-dot"></span>`:''}</div>
+        <div class="chat-last">${c.lastMsg}</div>
+      </div>
+    </div>`).join('');
+}
+
+function loadDesignerChats() {
+  const list = document.getElementById('designer-chat-list');
+  const demoChats = [
+    { id:'chat3', name:'Ayesha K.', lastMsg:'Thank you! When can we expect delivery?', unread:2 },
+    { id:'chat4', name:'Maryam B.', lastMsg:'Can I see a different stone option?', unread:0 },
+  ];
+  list.innerHTML = demoChats.map(c => `
+    <div class="chat-list-item ${c.unread?'unread':''}" onclick="openChat('${c.id}','${c.name}','designer')">
+      <div class="chat-avatar">${c.name.charAt(0)}</div>
+      <div class="chat-preview">
+        <div class="chat-name">${c.name} ${c.unread?`<span class="unread-dot"></span>`:''}</div>
+        <div class="chat-last">${c.lastMsg}</div>
+      </div>
+    </div>`).join('');
+}
+
+window.openChat = function(chatId, name, role) {
+  activeChat = chatId;
+  document.querySelectorAll('.chat-list-item').forEach(i=>i.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  event.currentTarget.classList.remove('unread');
+  const windowEl = document.getElementById(role+'-chat-window');
+  if (!chatMessages[chatId]) chatMessages[chatId] = getDefaultMessages(chatId, name);
+  renderChatWindow(windowEl, chatId, name);
+};
+
+function getDefaultMessages(chatId, name) {
+  return [
+    { from:'other', name, text:'Hello! I received your custom order request.', time:'10:30 AM' },
+    { from:'me', name:'You', text:'Hi! Yes, I was hoping to get a vintage-inspired piece.', time:'10:32 AM' },
+    { from:'other', name, text:'Wonderful! I specialize in exactly that. Let me send you a sketch.', time:'10:35 AM' },
+  ];
+}
+
+function renderChatWindow(el, chatId, name) {
+  el.innerHTML = `
+    <div class="chat-header-bar">
+      <div class="chat-avatar" style="width:36px;height:36px;font-size:0.9rem">${name.charAt(0)}</div>
+      <div><div style="font-size:0.9rem;color:var(--white)">${name}</div><div style="font-size:0.65rem;color:var(--gold)">Online</div></div>
+    </div>
+    <div class="chat-messages" id="chat-msgs-${chatId}">
+      ${chatMessages[chatId].map(m => `
+        <div class="chat-msg ${m.from==='me'?'sent':'received'}">
+          <div class="chat-bubble">${m.text}</div>
+          <div class="chat-time">${m.time}</div>
+        </div>`).join('')}
+    </div>
+    <div class="chat-input-bar">
+      <input type="text" id="chat-input-${chatId}" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendMessage('${chatId}','${name}')"/>
+      <button class="btn btn-solid" style="padding:0.6rem 1.2rem;white-space:nowrap" onclick="sendMessage('${chatId}','${name}')"><span>Send</span></button>
+    </div>`;
+  scrollChat(chatId);
+}
+
+window.sendMessage = function(chatId, name) {
+  const input = document.getElementById('chat-input-'+chatId);
+  const text = input.value.trim();
+  if (!text) return;
+  const now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  if (!chatMessages[chatId]) chatMessages[chatId] = [];
+  chatMessages[chatId].push({ from:'me', name:'You', text, time:now });
+  input.value = '';
+  localStorage.setItem('lum_chats', JSON.stringify(chatMessages));
+  const msgsEl = document.getElementById('chat-msgs-'+chatId);
+  if (msgsEl) {
+    msgsEl.innerHTML += `<div class="chat-msg sent"><div class="chat-bubble">${text}</div><div class="chat-time">${now}</div></div>`;
+    scrollChat(chatId);
+  }
+  // Simulate reply
+  setTimeout(() => {
+    const replies = ['Thank you for the message!','Understood, I\'ll work on it.','I\'ll send you an update soon.','Great choice! This will look stunning.'];
+    const reply = replies[Math.floor(Math.random()*replies.length)];
+    chatMessages[chatId].push({ from:'other', name, text:reply, time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) });
+    localStorage.setItem('lum_chats', JSON.stringify(chatMessages));
+    if (msgsEl) {
+      msgsEl.innerHTML += `<div class="chat-msg received"><div class="chat-bubble">${reply}</div><div class="chat-time">${chatMessages[chatId].slice(-1)[0].time}</div></div>`;
+      scrollChat(chatId);
+    }
+  }, 1500);
+};
+
+function scrollChat(chatId) {
+  const el = document.getElementById('chat-msgs-'+chatId);
+  if (el) el.scrollTop = el.scrollHeight;
+}
+
+// ============================================================
+// ORDER DETAIL MODAL
+// ============================================================
+window.openOrderDetail = function(id, role) {
+  const modal = document.getElementById('order-detail-modal');
+  const content = document.getElementById('order-detail-content');
+  content.innerHTML = renderOrderDetail(id, role);
+  modal.classList.add('open');
+};
+
+window.closeOrderModal = function() {
+  document.getElementById('order-detail-modal').classList.remove('open');
+};
+
+function renderOrderDetail(id, role) {
+  const statuses = ['pending','accepted','in_progress','preview_ready','completed'];
+  const demoProgress = [
+    { label:'Order Received', done:true, date:'Apr 18' },
+    { label:'Designer Accepted', done:true, date:'Apr 19' },
+    { label:'Sketch Sent', done:true, date:'Apr 21' },
+    { label:'In Production', done:id!=='DEMO02', date: id!=='DEMO02'?'Apr 22':'—' },
+    { label:'Preview Ready', done:false, date:'—' },
+    { label:'Delivered', done:false, date:'—' },
+  ];
+  return `
+    <div style="margin-bottom:2rem">
+      <div class="order-id-tag">LUM-${id}</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--white);margin:0.75rem 0">Custom Ring · Vintage Style</h3>
+      <div class="order-status in_progress">🔨 In Progress</div>
+    </div>
+    <h4 style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem">Order Progress</h4>
+    <div class="progress-tracker">
+      ${demoProgress.map((s,i) => `
+        <div class="progress-step ${s.done?'done':''}">
+          <div class="progress-dot"></div>
+          <div class="progress-info">
+            <div class="progress-label">${s.label}</div>
+            <div class="progress-date">${s.date}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    ${role === 'customer' ? `
+    <div style="margin-top:2rem;border-top:1px solid rgba(201,169,110,0.15);padding-top:1.5rem">
+      <h4 style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">Progress Images</h4>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <div class="progress-img-placeholder">📸 Sketch</div>
+        <div class="progress-img-placeholder">🔧 In Production</div>
+      </div>
+      <button class="btn" style="margin-top:1.5rem" onclick="showToast('Revision request sent!','success');closeOrderModal()"><span>Request Revision</span></button>
+    </div>` : `
+    <div style="margin-top:2rem;border-top:1px solid rgba(201,169,110,0.15);padding-top:1.5rem">
+      <button class="btn btn-solid" onclick="showToast('Status updated!','success');closeOrderModal()"><span>Mark Preview Ready</span></button>
+      <button class="btn" style="margin-left:0.75rem" onclick="openProgressUpload('${id}');closeOrderModal()"><span>Upload Progress</span></button>
+    </div>`}`;
+}
+
+window.openProgressUpload = function(orderId) {
+  showToast('Progress upload panel opened ✦');
+};
+
+// ============================================================
+// RATING SYSTEM
+// ============================================================
+window.openRating = function(orderId) {
+  const modal = document.getElementById('rating-modal');
+  const content = document.getElementById('rating-modal-content');
+  let stars = 0;
+  content.innerHTML = `
+    <p style="color:var(--text-dim);font-size:0.85rem;margin-bottom:1.5rem">Rate your experience with this custom order.</p>
+    <div class="star-row" id="star-row">
+      ${[1,2,3,4,5].map(i => `<span class="star" onclick="setStars(${i})" onmouseover="hoverStars(${i})" onmouseout="hoverStars(0)">★</span>`).join('')}
+    </div>
+    <div class="field" style="margin-top:1.5rem"><label>Your Review</label>
+      <textarea id="review-text" rows="3" placeholder="How was the craftsmanship, communication, delivery…"></textarea>
+    </div>
+    <button class="auth-submit" onclick="submitRating('${orderId}')">Submit Review</button>`;
+  modal.classList.add('open');
+};
+
+window.hoverStars = function(n) {
+  document.querySelectorAll('.star').forEach((s,i) => s.classList.toggle('hover', i < n));
+};
+window.setStars = function(n) {
+  window._selectedStars = n;
+  document.querySelectorAll('.star').forEach((s,i) => s.classList.toggle('active', i < n));
+};
+window.closeRatingModal = function() { document.getElementById('rating-modal').classList.remove('open'); };
+window.submitRating = function(id) {
+  const stars = window._selectedStars || 0;
+  const text = document.getElementById('review-text').value;
+  if (!stars) { showToast('Please select a rating', 'error'); return; }
+  showToast(`Thank you! Your ${stars}★ review has been submitted ✦`, 'success');
+  closeRatingModal();
+};
+
+// ============================================================
+// DESIGNER PROFILE ACTIONS
+// ============================================================
+window.saveDesignerProfile = function() {
+  const profile = {
+    name: document.getElementById('des-prof-name').value,
+    specialty: document.getElementById('des-prof-specialty').value,
+    bio: document.getElementById('des-prof-bio').value,
+    skills: document.getElementById('des-prof-skills').value,
+    years: document.getElementById('des-prof-years').value,
+    avatar: document.getElementById('des-prof-avatar').value,
+  };
+  localStorage.setItem('lum_des_profile', JSON.stringify(profile));
+  showToast('Profile saved! ✦', 'success');
+};
+
+window.saveCustomerProfile = function() {
+  const profile = {
+    name: document.getElementById('prof-name').value,
+    phone: document.getElementById('prof-phone').value,
+    bio: document.getElementById('prof-bio').value,
+    address: document.getElementById('prof-address').value,
+  };
+  localStorage.setItem('lum_cust_profile', JSON.stringify(profile));
+  showToast('Profile saved! ✦', 'success');
+};
+
+// ============================================================
+// UPLOAD DESIGN MODAL
+// ============================================================
+window.openUploadModal = function() { document.getElementById('upload-modal').classList.add('open'); };
+window.closeUploadModal = function() { document.getElementById('upload-modal').classList.remove('open'); };
+
+window.previewDesignImage = function(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const prev = document.getElementById('design-upload-preview');
+    prev.src = e.target.result;
+    prev.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+};
+
+window.submitDesignUpload = function() {
+  const title = document.getElementById('upload-title').value.trim();
+  const price = document.getElementById('upload-price').value;
+  if (!title || !price) { showToast('Please fill in required fields', 'error'); return; }
+  const prev = document.getElementById('design-upload-preview');
+  const design = {
+    title,
+    category: document.getElementById('upload-category').value,
+    price,
+    desc: document.getElementById('upload-desc').value,
+    imageUrl: prev.style.display !== 'none' ? prev.src : null,
+    designerId: currentUser?.uid || 'demo',
+  };
+  designerDesigns.push(design);
+  localStorage.setItem('lum_designs', JSON.stringify(designerDesigns));
+  closeUploadModal();
+  loadDesignerPortfolio();
+  showToast(`"${title}" uploaded successfully! ✦`, 'success');
+  // Reset form
+  document.getElementById('upload-title').value = '';
+  document.getElementById('upload-price').value = '';
+  document.getElementById('upload-desc').value = '';
+  prev.style.display = 'none';
+};
+
+window.acceptRequest = async function(id) {
+  try {
+    await updateDoc(doc(db, 'customOrders', id), { status:'accepted', designerId: currentUser.uid });
+  } catch(e) {}
+  showToast('Request accepted! ✓', 'success');
+  loadDesignerRequests();
+};
+
+window.declineRequest = async function(id) {
+  showToast('Request declined');
+  loadDesignerRequests();
+};
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+let notifications = [
+  { text:'New customization request from Ayesha K.', time:'2h ago', read:false },
+  { text:'Your ring preview is ready for review!', time:'5h ago', read:false },
+  { text:'Order LUM-DEMO03 marked as completed.', time:'1d ago', read:true },
+];
+
+window.toggleNotifications = function() {
+  const dd = document.getElementById('notif-dropdown');
+  dd.classList.toggle('open');
+  if (dd.classList.contains('open')) renderNotifications();
+};
+
+function renderNotifications() {
+  const dd = document.getElementById('notif-dropdown');
+  const unread = notifications.filter(n=>!n.read).length;
+  const countEl = document.getElementById('notif-count');
+  if (unread > 0) { countEl.textContent = unread; countEl.style.display = ''; }
+  else countEl.style.display = 'none';
+  dd.innerHTML = `<div class="notif-header">Notifications <button onclick="markAllRead()" style="font-size:0.65rem;color:var(--gold);background:none;border:none;cursor:pointer;letter-spacing:0.1em">Mark all read</button></div>` +
+    notifications.map((n,i) => `
+      <div class="notif-item ${n.read?'':'unread'}" onclick="markRead(${i})">
+        <div class="notif-text">${n.text}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>`).join('') +
+    `<div style="padding:0.75rem;text-align:center;border-top:1px solid rgba(201,169,110,0.1)">
+       <a style="font-size:0.7rem;color:var(--gold);cursor:pointer;letter-spacing:0.1em">View all notifications</a>
+     </div>`;
+}
+
+window.markRead = function(i) { notifications[i].read = true; renderNotifications(); };
+window.markAllRead = function() { notifications.forEach(n=>n.read=true); renderNotifications(); };
+
+document.addEventListener('click', function(e) {
+  const dd = document.getElementById('notif-dropdown');
+  const bell = document.getElementById('notification-bell');
+  if (dd && !bell.contains(e.target)) dd.classList.remove('open');
+});
+
+// ============================================================
+// ORDER SUBMISSION
+// ============================================================
+window.submitOrder = async function() {
+  const name = document.getElementById('cust-name').value;
+  const email = document.getElementById('cust-email').value;
+  const type = document.getElementById('jewelry-type').value;
+  if (!name || !email) { showToast('Please fill in your name and email', 'error'); return; }
+  if (!type) { showToast('Please select a jewelry type', 'error'); return; }
+
+  const btn = document.querySelector('.form-submit');
+  btn.innerHTML = '<span>Submitting…</span>';
+  btn.disabled = true;
+
+  try {
+    let imageUrl = null;
+    const fileInput = document.getElementById('image-upload');
+    if (fileInput.files.length > 0) {
+      try {
+        const file = fileInput.files[0];
+        const storageRef = ref(storage, `orders/${Date.now()}_${file.name}`);
+        const snap = await uploadBytes(storageRef, file);
+        imageUrl = await getDownloadURL(snap.ref);
+      } catch(e) { console.log('Image upload skipped:', e); }
+    }
+    const selectedDesignerEl = document.querySelector('.designer-selector-card.selected');
+    const orderData = {
+      type, style: document.getElementById('jewelry-style').value,
+      material: document.getElementById('jewelry-material').value,
+      gemstone: document.getElementById('jewelry-gem').value,
+      size: document.getElementById('jewelry-size').value,
+      colorTheme: document.querySelector('.swatch.selected')?.dataset.color || 'Gold',
+      colorNote: document.getElementById('color-note').value,
+      budget: parseInt(document.getElementById('budget-range').value),
+      description: document.getElementById('design-desc').value,
+      quantity: parseInt(document.getElementById('quantity').value),
+      referenceImage: imageUrl,
+      customerName: name, customerEmail: email,
+      customerPhone: document.getElementById('cust-phone').value,
+      preferredContact: document.getElementById('cust-contact').value,
+      deliveryAddress: document.getElementById('cust-address').value,
+      designerId: selectedDesignerEl?.dataset.id || null,
+      userId: currentUser?.uid || null,
+      status: 'pending',
+      createdAt: serverTimestamp()
+    };
+
+    let orderId = 'LUM-' + Date.now().toString(36).toUpperCase();
+    try {
+      const docRef = await addDoc(collection(db, 'customOrders'), orderData);
+      orderId = 'LUM-' + docRef.id.slice(-8).toUpperCase();
+    } catch(e) { console.log('Firestore save skipped:', e); }
+
+    document.getElementById('custom-form-area').style.display = 'none';
+    const ss = document.getElementById('success-screen');
+    ss.classList.add('show');
+    document.getElementById('order-id-display').textContent = `Order ID: ${orderId}`;
+    showToast('Order submitted! ✨', 'success');
+    addNotification(`New custom order submitted: ${orderId}`);
+  } catch(e) {
+    showToast('Something went wrong. Please try again.', 'error');
+    btn.innerHTML = '<span>Submit Custom Order</span>';
+    btn.disabled = false;
+  }
+};
+
+function addNotification(text) {
+  notifications.unshift({ text, time:'Just now', read:false });
+  const countEl = document.getElementById('notif-count');
+  const unread = notifications.filter(n=>!n.read).length;
+  if (unread > 0) { countEl.textContent = unread; countEl.style.display = ''; }
+}
+
+function getFriendlyError(code) {
+  const map = {
+    'auth/user-not-found': 'Email or password is incorrect',
+    'auth/wrong-password': 'Email or password is incorrect',
+    'auth/invalid-credential': 'Email or password is incorrect',
+    'auth/email-already-in-use': 'User already exists. Please sign in',
+    'auth/weak-password': 'Password must be at least 6 characters.',
+    'auth/invalid-email': 'Please enter a valid email.',
+    'auth/too-many-requests': 'Too many attempts. Please try again later.',
+    'auth/configuration-not-found': '⚠️ Firebase not configured yet.',
+  };
+  return map[code] || 'An error occurred. Please try again.';
+}
+
+window.openAuth = () => document.getElementById('auth-modal').classList.add('open');
+window.closeAuth = () => document.getElementById('auth-modal').classList.remove('open');
+window.switchTab = (tab) => {
+  document.querySelectorAll('.auth-tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='signup'));
+  });
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+};
+</script>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PRODUCTS = [
+  { id:1, name:'Aurora Solitaire', category:'rings', price:'$2,850', desc:'A timeless princess-cut diamond set in 18K white gold with a tapered band.', emoji:'💍', bg:'rings-bg', badge:'Bestseller' },
+  { id:2, name:'Cascade Pendant', category:'necklaces', price:'$1,490', desc:'Cascading diamond drops on a delicate 18K yellow gold chain.', emoji:'📿', bg:'necklace-bg', badge:null },
+  { id:3, name:'Infinity Cuff', category:'bracelets', price:'$3,200', desc:'Platinum infinity cuff with pavé-set round diamonds throughout.', emoji:'⌚', bg:'bracelet-bg', badge:'New' },
+  { id:4, name:'Lumière Drop', category:'earrings', price:'$4,100', desc:'Statement drop earrings featuring marquise-cut sapphires in 18K gold.', emoji:'✨', bg:'earring-bg', badge:null },
+  { id:5, name:'Bridal Set Royale', category:'bridal', price:'$8,600', desc:'Matching engagement ring and wedding band with baguette diamonds.', emoji:'👑', bg:'bridal-bg', badge:'Exclusive' },
+  { id:6, name:'Star Pendant', category:'pendants', price:'$720', desc:'Minimalist star pendant in sterling silver with a tiny aquamarine center.', emoji:'⭐', bg:'pendant-bg', badge:null },
+  { id:7, name:'Vintage Rose Ring', category:'rings', price:'$3,450', desc:'Edwardian-inspired filigree setting with a blush pink morganite center stone.', emoji:'🌹', bg:'rings-bg', badge:'Vintage' },
+  { id:8, name:'Deco Chain', category:'necklaces', price:'$2,100', desc:'Art Deco inspired geometric link chain in two-tone 18K gold.', emoji:'🔗', bg:'necklace-bg', badge:null },
+  { id:9, name:'Tennis Bracelet', category:'bracelets', price:'$5,800', desc:'Classic prong-set round brilliant diamond tennis bracelet in platinum.', emoji:'💎', bg:'bracelet-bg', badge:'Classic' },
+  { id:10, name:'Pearl Hoops', category:'earrings', price:'$1,180', desc:'South Sea pearl hoops suspended from 18K rose gold double loops.', emoji:'🔮', bg:'earring-bg', badge:null },
+  { id:11, name:'Bridal Crown Set', category:'bridal', price:'$12,400', desc:'Full parure — necklace, earrings, and bracelet in diamond-studded platinum.', emoji:'👰', bg:'bridal-bg', badge:'Luxury' },
+  { id:12, name:'Hamsa Pendant', category:'pendants', price:'$890', desc:'Hand-carved Hamsa pendant in 18K yellow gold with turquoise inlay.', emoji:'🤲', bg:'pendant-bg', badge:null },
+];
+
+const DESIGNERS = [
+  { id:'d1', name:'Amna Khalid', specialty:'Bridal & Engagement', bio:'12 years crafting heirloom pieces in Lahore. Specializes in filigree and stone-setting.', skills:['Filigree','Stone Setting','Engraving'], rating:4.9, reviews:87, badge:'Top Rated', emoji:'💍', emoji2:'🌸' },
+  { id:'d2', name:'Sara Craft Studio', specialty:'Contemporary Minimalist', bio:'Modern jewelry with clean lines. Based in Karachi, ships worldwide.', skills:['CAD Design','3D Printing','Minimal Design'], rating:4.7, reviews:52, badge:'Rising Star', emoji:'✨', emoji2:'💫' },
+  { id:'d3', name:'Zara Jewels', specialty:'Vintage & Art Deco', bio:'Antique-inspired designs drawing from Mughal heritage. Every piece tells history.', skills:['Vintage','Art Deco','Enameling'], rating:4.8, reviews:134, badge:'Verified', emoji:'👑', emoji2:'🏛️' },
+  { id:'d4', name:'Fatima Artisan Co.', specialty:'Custom Bridal Sets', bio:'Complete bridal solutions from mehndi to walima. 8 years experience.', skills:['Bridal Sets','Gold Work','Pearl Setting'], rating:5.0, reviews:29, badge:'New', emoji:'💐', emoji2:'👸' },
+  { id:'d5', name:'Noor Designs', specialty:'Pendants & Necklaces', bio:'Geometric and nature-inspired pendants. Every design is a one-of-a-kind creation.', skills:['Pendants','Nature Motifs','Silver Work'], rating:4.6, reviews:63, badge:null, emoji:'🌿', emoji2:'🔮' },
+  { id:'d6', name:'Rukhsar Fine Art', specialty:'Earrings & Ear Cuffs', bio:'Statement pieces that frame the face. Inspired by South Asian textile patterns.', skills:['Earrings','Chandbalis','Jhumkas'], rating:4.8, reviews:98, badge:'Popular', emoji:'🌙', emoji2:'⭐' },
+];
+
+let cart = JSON.parse(localStorage.getItem('lum_cart') || '[]');
+let wishlist = JSON.parse(localStorage.getItem('lum_wish') || '[]');
+let selectedDesignerId = null;
+
+// ============================================================
+// PAGE NAVIGATION
+// ============================================================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id + '-page').classList.add('active');
+  ['home','designers','customize','cart'].forEach(n => {
+    document.getElementById('nav-'+n)?.classList.toggle('active', n===id);
+  });
+  window.scrollTo({ top:0, behavior:'smooth' });
+  if (id === 'cart') renderCart();
+  if (id === 'designers') renderDesignersGrid();
+  if (id === 'home') { renderFeaturedDesigners(); renderProducts(); }
+}
+window.showPage = showPage;
+
+// ============================================================
+// DASHBOARD TABS
+// ============================================================
+window.switchDashTab = function(tab) {
+  document.querySelectorAll('#customer-dashboard-page .dash-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.tab === tab);
+  });
+  document.querySelectorAll('#customer-dashboard-page .dash-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('dash-'+tab).classList.add('active');
+};
+
+window.switchDesignerTab = function(tab) {
+  document.querySelectorAll('#designer-dashboard-page .dash-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.tab === tab);
+  });
+  document.querySelectorAll('#designer-dashboard-page .dash-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('des-'+tab).classList.add('active');
+};
+
+// ============================================================
+// DESIGNERS GRID
+// ============================================================
+function renderDesignersGrid() {
+  const grid = document.getElementById('designers-grid');
+  grid.innerHTML = DESIGNERS.map(d => `
+    <div class="designer-card" onclick="viewDesignerProfile('${d.id}')">
+      <div class="designer-card-hero">
+        <div class="designer-card-emoji">${d.emoji}</div>
+        ${d.badge ? `<div class="product-badge">${d.badge}</div>` : ''}
+      </div>
+      <div class="designer-card-body">
+        <div class="designer-name">${d.name}</div>
+        <div class="designer-specialty">${d.specialty}</div>
+        <p class="designer-bio-short">${d.bio}</p>
+        <div class="designer-skills">${d.skills.slice(0,3).map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
+        <div class="designer-footer">
+          <div class="designer-rating">★ ${d.rating} <span class="rating-count">(${d.reviews} reviews)</span></div>
+          <button class="btn" style="padding:0.5rem 1.2rem;font-size:0.65rem"><span>Commission</span></button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderFeaturedDesigners() {
+  const row = document.getElementById('featured-designers-row');
+  const featured = DESIGNERS.slice(0,4);
+  row.innerHTML = featured.map(d => `
+    <div class="featured-designer-card" onclick="viewDesignerProfile('${d.id}')">
+      <div class="featured-des-avatar">${d.emoji}</div>
+      <div class="featured-des-name">${d.name}</div>
+      <div class="featured-des-spec">${d.specialty}</div>
+      <div class="designer-rating" style="font-size:0.75rem;margin-top:0.4rem">★ ${d.rating}</div>
+    </div>`).join('');
+}
+
+window.viewDesignerProfile = function(id) {
+  const d = DESIGNERS.find(x => x.id === id);
+  if (!d) return;
+  const content = document.getElementById('designer-profile-content');
+  const designerProducts = PRODUCTS.slice(0,3); // demo: show some products for this designer
+  content.innerHTML = `
+    <div class="designer-profile-header">
+      <div class="designer-profile-avatar">${d.emoji}</div>
+      <div class="designer-profile-info">
+        <h1 class="designer-profile-name">${d.name}</h1>
+        <div class="designer-specialty" style="font-size:0.78rem;margin-bottom:0.75rem">${d.specialty}</div>
+        <div class="designer-rating" style="font-size:0.9rem;margin-bottom:1rem">★ ${d.rating} <span class="rating-count">(${d.reviews} reviews)</span></div>
+        <div class="designer-skills">${d.skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
+      </div>
+    </div>
+    <div class="designer-profile-bio">
+      <p>${d.bio}</p>
+    </div>
+    <div style="display:flex;gap:1rem;margin:2rem 0;flex-wrap:wrap">
+      <button class="btn btn-solid" onclick="commissionDesigner('${d.id}','${d.name}')"><span>Commission ${d.name.split(' ')[0]}</span></button>
+      <button class="btn" onclick="openChat('profile-chat','${d.name}','customer');showDashboard()"><span>Send Message</span></button>
+    </div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--white);margin-bottom:2rem">Portfolio</h3>
+    <div class="products-grid" style="max-width:100%">
+      ${designerProducts.map(p => `
+        <div class="product-card">
+          <div class="product-img product-img-bg ${p.bg}"><span class="emoji">${p.emoji}</span></div>
+          <div class="product-info">
+            <div class="product-category">${p.category}</div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-footer">
+              <div class="product-price">${p.price}</div>
+              <button class="btn" style="padding:0.4rem 1rem;font-size:0.65rem" onclick="customizeProduct('${p.name}')"><span>Customize</span></button>
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div style="margin-top:3rem">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--white);margin-bottom:1.5rem">Reviews</h3>
+      ${renderDemoReviews(d)}
+    </div>`;
+  showPage('designer-profile');
+};
+
+function renderDemoReviews(d) {
+  const reviews = [
+    { name:'Ayesha R.', stars:5, text:'Absolutely stunning craftsmanship. My bridal set was better than I imagined!', date:'Apr 2026' },
+    { name:'Zainab M.', stars:5, text:'Perfect communication throughout the process. Will definitely order again.', date:'Mar 2026' },
+    { name:'Hira T.', stars:4, text:'Beautiful piece, slightly longer delivery than expected but worth the wait.', date:'Feb 2026' },
+  ];
+  return reviews.map(r => `
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">${r.name.charAt(0)}</div>
+        <div><div class="review-name">${r.name}</div><div class="review-date">${r.date}</div></div>
+        <div class="review-stars">★★★★${r.stars===5?'★':'☆'}</div>
+      </div>
+      <p class="review-text">${r.text}</p>
+    </div>`).join('');
+}
+
+window.commissionDesigner = function(id, name) {
+  selectedDesignerId = id;
+  showPage('customize');
+  document.getElementById('s-designer').textContent = name;
+  // Highlight selected designer in selector row
+  setTimeout(() => {
+    document.querySelectorAll('.designer-selector-card').forEach(c => {
+      c.classList.toggle('selected', c.dataset.id === id);
+    });
+  }, 100);
+  showToast(`Commissioning ${name.split(' ')[0]} — fill in your design details ✦`);
+};
+
+// ============================================================
+// DESIGNER SELECTOR IN CUSTOMIZE
+// ============================================================
+function renderDesignerSelector() {
+  const row = document.getElementById('designer-selector-row');
+  row.innerHTML = `<div class="designer-selector-card ${!selectedDesignerId?'selected':''}" data-id="" onclick="selectDesigner('',this)">
+    <div style="font-size:1.5rem">🌟</div>
+    <div style="font-size:0.75rem;color:var(--white)">Any Designer</div>
+  </div>` +
+  DESIGNERS.map(d => `
+    <div class="designer-selector-card ${selectedDesignerId===d.id?'selected':''}" data-id="${d.id}" onclick="selectDesigner('${d.id}',this)">
+      <div style="font-size:1.5rem">${d.emoji}</div>
+      <div style="font-size:0.72rem;color:var(--white)">${d.name.split(' ')[0]}</div>
+      <div style="font-size:0.6rem;color:var(--gold)">★${d.rating}</div>
+    </div>`).join('');
+}
+
+window.selectDesigner = function(id, el) {
+  selectedDesignerId = id || null;
+  document.querySelectorAll('.designer-selector-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const d = DESIGNERS.find(x => x.id === id);
+  document.getElementById('s-designer').textContent = d ? d.name : 'Any';
+};
+
+// ============================================================
+// PRODUCTS
+// ============================================================
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('products-grid');
+  const items = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+  grid.innerHTML = items.map(p => `
+    <div class="product-card" data-category="${p.category}">
+      <div class="product-img product-img-bg ${p.bg}">
+        <span class="emoji">${p.emoji}</span>
+        <div class="product-img-overlay">
+          <button class="btn btn-solid" onclick="customizeProduct('${p.name}')"><span>Customize</span></button>
+        </div>
+        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-footer">
+          <div class="product-price">${p.price}</div>
+          <div class="product-actions">
+            <button class="icon-btn ${wishlist.includes(p.id)?'active':''}" onclick="toggleWishlist(${p.id},this)" title="Wishlist">♡</button>
+            <button class="icon-btn" onclick="addToCart(${p.id})" title="Add to Cart">🛒</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function customizeProduct(name) {
+  showPage('customize');
+  const typeMap = {ring:'Ring',necklace:'Necklace',bracelet:'Bracelet',earring:'Earrings',pendant:'Pendant',bridal:'Ring'};
+  const nameL = name.toLowerCase();
+  for (const [k,v] of Object.entries(typeMap)) {
+    if (nameL.includes(k)) { document.getElementById('jewelry-type').value = v; updateSummary(); break; }
+  }
+  document.getElementById('design-desc').value = `Inspired by "${name}" — please customize accordingly.`;
+  showToast(`Customizing based on "${name}"`);
+}
+window.customizeProduct = customizeProduct;
+
+// ============================================================
+// FILTERS
+// ============================================================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(btn.dataset.filter);
+  });
+});
+
+// ============================================================
+// CART
+// ============================================================
+function saveCart() {
+  localStorage.setItem('lum_cart', JSON.stringify(cart));
+  document.getElementById('cart-count').textContent = cart.reduce((s,i)=>s+i.qty,0);
+}
+
+function addToCart(id) {
+  const product = PRODUCTS.find(p => p.id === id);
+  if (!product) return;
+  const existing = cart.find(i => i.id === id);
+  if (existing) existing.qty++;
+  else cart.push({ id, name:product.name, price:product.price, emoji:product.emoji, qty:1 });
+  saveCart();
+  showToast(`"${product.name}" added to cart ✦`);
+}
+window.addToCart = addToCart;
+
+function removeFromCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  saveCart();
+  renderCart();
+}
+window.removeFromCart = removeFromCart;
+
+function renderCart() {
+  const container = document.getElementById('cart-content');
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <h2>Your cart is <em class="serif-italic">empty</em></h2>
+      <p>Discover our curated collection and add pieces that speak to you.</p>
+      <button class="btn" onclick="showPage('home')"><span>Browse Collection</span></button>
+    </div>`; return;
+  }
+  const total = cart.reduce((s,i) => s + (parseFloat(i.price.replace(/[$,]/g,'')) * i.qty), 0);
+  container.innerHTML = `
+    <div class="cart-items">
+      ${cart.map(i => `
+        <div class="cart-item">
+          <div class="cart-item-icon">${i.emoji}</div>
+          <div class="cart-item-details">
+            <div class="cart-item-name">${i.name}</div>
+            <div class="cart-item-meta">Quantity: <span>${i.qty}</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div class="cart-item-price">${i.price}</div>
+            <button class="cart-item-remove" onclick="removeFromCart(${i.id})">✕</button>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <div class="cart-total-label">Total Estimate</div>
+        <div class="cart-total-amount">$${total.toLocaleString()}</div>
+      </div>
+      <div class="cart-actions">
+        <button class="btn btn-solid" onclick="checkoutCart()"><span>Proceed to Checkout</span></button>
+        <button class="btn btn-ghost" onclick="showPage('home')"><span>Continue Shopping</span></button>
+      </div>
+    </div>`;
+}
+
+function checkoutCart() {
+  if (!cart.length) return;
+  showToast('Proceeding to checkout… (connect payment gateway)', 'success');
+}
+
+// ============================================================
+// WISHLIST
+// ============================================================
+function toggleWishlist(id, btn) {
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(i => i !== id);
+    btn.classList.remove('active');
+    showToast('Removed from wishlist');
+  } else {
+    wishlist.push(id);
+    btn.classList.add('active');
+    showToast('Added to wishlist ♡');
+  }
+  localStorage.setItem('lum_wish', JSON.stringify(wishlist));
+}
+window.toggleWishlist = toggleWishlist;
+
+// ============================================================
+// CUSTOMIZE FORM HELPERS
+// ============================================================
+window.updateBudget = function(v) {
+  document.getElementById('budget-display').textContent = '$' + parseInt(v).toLocaleString();
+  const pct = ((v - 100) / (50000 - 100)) * 100;
+  document.getElementById('budget-range').style.backgroundSize = pct + '% 100%';
+  updateSummary();
+};
+
+window.updateSummary = function() {
+  document.getElementById('s-type').textContent = document.getElementById('jewelry-type').value || '—';
+  document.getElementById('s-style').textContent = document.getElementById('jewelry-style').value || '—';
+  document.getElementById('s-material').textContent = document.getElementById('jewelry-material').value || '—';
+  document.getElementById('s-gem').textContent = document.getElementById('jewelry-gem').value || 'None';
+  document.getElementById('s-budget').textContent = '$' + parseInt(document.getElementById('budget-range').value).toLocaleString();
+  document.getElementById('s-qty').textContent = document.getElementById('quantity').value;
+};
+
+window.selectColor = function(el) {
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('s-color').textContent = el.dataset.color;
+};
+
+window.changeQty = function(delta) {
+  const input = document.getElementById('quantity');
+  let v = parseInt(input.value) + delta;
+  if (v < 1) v = 1; if (v > 99) v = 99;
+  input.value = v;
+  updateSummary();
+};
+
+window.handleImageUpload = function(input) {
+  if (!input.files.length) return;
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('upload-preview');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+  showToast('Image ready to upload ✦');
+};
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  toast.innerHTML = `<span>${type==='success'?'✓':type==='error'?'✕':'✦'}</span> ${message}`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3200);
+}
+window.showToast = showToast;
+
+// ============================================================
+// MOBILE NAV
+// ============================================================
+window.toggleMobileNav = function() {
+  document.getElementById('mobile-nav').classList.toggle('open');
+  document.getElementById('mobile-overlay').classList.toggle('open');
+};
+
+// ============================================================
+// SCROLL EFFECTS
+// ============================================================
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ============================================================
+// MARQUEE
+// ============================================================
+const marqueeItems = ['Handcrafted Luxury','Custom Bespoke Design','18K Gold & Platinum','Ethically Sourced','Expert Craftsmanship','Women Artisans','Free Engraving','Lifetime Warranty','Worldwide Delivery'];
+const marqueeEl = document.getElementById('marquee-inner');
+const doubled = [...marqueeItems, ...marqueeItems];
+marqueeEl.innerHTML = doubled.map(i => `<span class="marquee-item">${i}</span>`).join('');
+
+// ============================================================
+// LANGUAGE / i18n
+// ============================================================
+const TRANSLATIONS = {
+  en: {
+    nav_home:'Home', nav_designers:'Designers', nav_customize:'Customize', nav_cart:'Cart', nav_login:'Login',
+    hero_eyebrow:'Bespoke Atelier Since 2026',
+    hero_title_1:'Design Your', hero_title_2:'Dream Jewelry',
+    hero_subtitle:'Every piece tells a story. Discover talented designers — or commission your own bespoke creation.',
+    hero_btn_customize:'Start Customizing',
+    stat_pieces:'Pieces Crafted', stat_delight:'Client Delight', stat_years:'Years of Art',
+    collection_eyebrow:'Our Atelier', collection_title:'Curated', collection_title_em:'Collection',
+    collection_subtitle:'Explore our showcase of handcrafted designs.',
+    filter_all:'All', filter_rings:'Rings', filter_necklaces:'Necklaces', filter_bracelets:'Bracelets',
+    filter_earrings:'Earrings', filter_bridal:'Bridal', filter_pendants:'Pendants',
+    cta_title:'Have a Vision', cta_title_em:'in Mind?',
+    cta_text:"Our master artisans will bring your dream jewelry to life.",
+    cta_btn:'Begin Your Custom Order',
+    auth_tagline:'Members receive exclusive atelier access',
+    auth_signin:'Sign In', auth_create:'Create Account',
+    auth_email:'Email Address', auth_email_ph:'your@email.com',
+    auth_password:'Password', auth_pw_ph:'Min. 6 characters',
+    auth_fname:'First Name', auth_lname:'Last Name',
+    auth_or:'or continue with', auth_google:'Continue with Google',
+    lang_switch:'اردو',
+  },
+  ur: {
+    nav_home:'ہوم', nav_designers:'ڈیزائنرز', nav_customize:'اپنی مرضی', nav_cart:'کارٹ', nav_login:'لاگ ان',
+    hero_eyebrow:'خصوصی اٹیلیئر — ۲۰۲۶ سے',
+    hero_title_1:'ڈیزائن کریں', hero_title_2:'خوابوں کا زیور',
+    hero_subtitle:'ہر زیور ایک کہانی بیان کرتا ہے۔ باصلاحیت ڈیزائنرز دریافت کریں۔',
+    hero_btn_customize:'اپنا ڈیزائن بنائیں',
+    stat_pieces:'بنائے گئے زیورات', stat_delight:'صارفین کی خوشی', stat_years:'سال کا فن',
+    collection_eyebrow:'ہمارا اٹیلیئر', collection_title:'منتخب', collection_title_em:'کلیکشن',
+    collection_subtitle:'ہمارے ہاتھ سے بنے ڈیزائنوں کی نمائش دیکھیں۔',
+    filter_all:'سب', filter_rings:'انگوٹھیاں', filter_necklaces:'ہار', filter_bracelets:'کنگن',
+    filter_earrings:'بالیاں', filter_bridal:'دلہن', filter_pendants:'پینڈنٹ',
+    cta_title:'کوئی خیال ہے', cta_title_em:'ذہن میں؟',
+    cta_text:'ہمارے ماہر کاریگر آپ کے خوابوں کے زیور کو حقیقت بنائیں گے۔',
+    cta_btn:'اپنا آرڈر شروع کریں',
+    auth_tagline:'ممبران کو خصوصی اٹیلیئر تک رسائی ملتی ہے',
+    auth_signin:'سائن ان', auth_create:'اکاؤنٹ بنائیں',
+    auth_email:'ای میل پتہ', auth_email_ph:'آپ کی ای میل',
+    auth_password:'پاس ورڈ', auth_pw_ph:'کم از کم ۶ حروف',
+    auth_fname:'پہلا نام', auth_lname:'آخری نام',
+    auth_or:'یا جاری رکھیں', auth_google:'گوگل سے جاری رکھیں',
+    lang_switch:'English',
+  }
+};
+
+let currentLang = 'en';
+window.toggleLanguage = function() {
+  currentLang = currentLang === 'en' ? 'ur' : 'en';
+  applyLanguage(currentLang);
+};
+
+function applyLanguage(lang) {
+  const t = TRANSLATIONS[lang];
+  const isUrdu = lang === 'ur';
+  document.body.classList.toggle('rtl', isUrdu);
+  document.documentElement.lang = isUrdu ? 'ur' : 'en';
+  document.getElementById('lang-label').textContent = t.lang_switch;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  localStorage.setItem('lum_lang', lang);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderProducts();
+renderFeaturedDesigners();
+renderDesignerSelector();
+saveCart();
+updateBudget(2500);
+
+const savedLang = localStorage.getItem('lum_lang');
+if (savedLang && savedLang !== 'en') { currentLang = savedLang; applyLanguage(savedLang); }
+
+document.getElementById('auth-modal').addEventListener('click', function(e) { if (e.target === this) closeAuth(); });
+document.getElementById('upload-modal').addEventListener('click', function(e) { if (e.target === this) closeUploadModal(); });
+document.getElementById('order-detail-modal').addEventListener('click', function(e) { if (e.target === this) closeOrderModal(); });
+document.getElementById('rating-modal').addEventListener('click', function(e) { if (e.target === this) closeRatingModal(); });
+</script>
+</body>
+</html>
